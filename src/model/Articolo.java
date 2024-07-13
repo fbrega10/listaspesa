@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.ArticoloException;
 import utils.Costanti;
 
 import java.io.Serializable;
@@ -12,21 +13,23 @@ public class Articolo implements Serializable {
     private int quantita;
     private String categoria;
 
-    public Articolo(String nomeArticolo, BigDecimal prezzoUnitario) {
+    public Articolo(String nomeArticolo, BigDecimal prezzoUnitario) throws ArticoloException {
         //da requisito occorre inizializzare la categoria a default in mancanza di un dato
         //cosi come la quantita che va impostata a 1
         if (prezzoUnitario.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException(Costanti.ECCEZ_PREZZO_NEGATIVO);
+            throw new ArticoloException(Costanti.ECCEZ_PREZZO_NEGATIVO);
+        if (nomeArticolo == null)
+            throw new ArticoloException(Costanti.NOME_ARTICOLO_INVALIDO);
         this.nomeArticolo = nomeArticolo;
         this.prezzoUnitario = prezzoUnitario;
         this.categoria = Costanti.CATEGORIA_DEFAULT;
         this.quantita = Costanti.QUANTITA_DEFAULT;
     }
 
-    public Articolo(String nomeArticolo, BigDecimal prezzoUnitario, int quantita, String categoria) {
+    public Articolo(String nomeArticolo, BigDecimal prezzoUnitario, int quantita, String categoria) throws ArticoloException {
         this(nomeArticolo, prezzoUnitario);
         if (quantita <= 0) {
-            throw new IllegalArgumentException(Costanti.ECCEZ_QUANTITA_NON_ACCETTATA);
+            throw new ArticoloException(Costanti.ECCEZ_QUANTITA_NON_CONSENTITA);
         }
         this.quantita = quantita;
         this.categoria = categoria;
@@ -34,7 +37,7 @@ public class Articolo implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (! (obj instanceof Articolo s)) return false;
+        if (!(obj instanceof Articolo s)) return false;
         return this.nomeArticolo.equals(s.getNomeArticolo())
                 && this.prezzoUnitario.equals(s.getPrezzoUnitario())
                 && this.quantita == s.getQuantita()
@@ -100,9 +103,9 @@ public class Articolo implements Serializable {
         }
     }
 
-    public static class ArticoloPrezzoUnitarioComparator implements Comparator<Articolo>{
+    public static class ArticoloPrezzoUnitarioComparator implements Comparator<Articolo> {
         @Override
-        public int compare(Articolo a, Articolo b){
+        public int compare(Articolo a, Articolo b) {
             return (a.getPrezzoUnitario().compareTo(b.getPrezzoUnitario()));
         }
     }

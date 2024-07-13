@@ -1,9 +1,10 @@
 package test;
 
+import exceptions.ArticoloException;
 import model.Articolo;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
@@ -21,7 +22,7 @@ public class ArticoloTest {
 
 
     @BeforeEach
-    public void testSetup() {
+    public void testSetup() throws ArticoloException {
         articolo = new Articolo(NOME_ARTICOLO, PREZZO_UNITARIO, 3, CATEGORIA_DOLCI);
         articolo1 = new Articolo(NOME_ARTICOLO, PREZZO_UNITARIO, 3, CATEGORIA_DOLCI);
     }
@@ -29,6 +30,8 @@ public class ArticoloTest {
 
     @Test
     public void testEquals() {
+        //Due articoli rispecchiano lo stesso oggetto, seppure i reference siano diversi e siano due
+        //
         Assertions.assertEquals(articolo, articolo1);
     }
 
@@ -48,9 +51,23 @@ public class ArticoloTest {
     }
 
     @Test
-    public void testEccezioneCostruttore() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    public void testEccezioneCostruttorePrezzoNegativo() {
+        Assertions.assertThrows(ArticoloException.class, () -> {
             articolo = new Articolo(NOME_ARTICOLO, BigDecimal.valueOf(-1), QUANTITA_DEFAULT, CATEGORIA_DOLCI);
         });
+    }
+
+    @Test
+    public void testEccezioneCostruttoreNomeInvalido() {
+        Assertions.assertThrows(ArticoloException.class, () -> {
+            articolo = new Articolo(null, BigDecimal.valueOf(1), QUANTITA_DEFAULT, CATEGORIA_DOLCI);
+        });
+    }
+
+    @Test
+    public void testCalcolaPrezzo() {
+        Assertions.assertEquals(BigDecimal.valueOf(3), articolo.calcolaPrezzo());
+        articolo.setPrezzoUnitario(BigDecimal.TEN);
+        Assertions.assertEquals(BigDecimal.valueOf(30), articolo.calcolaPrezzo());
     }
 }
