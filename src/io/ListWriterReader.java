@@ -45,10 +45,9 @@ public class ListWriterReader {
                 List<String> buffer = ListWriterReader.splitBySemicolon(line);
                 switch (buffer.size()) {
                     case 2 -> list.add(new Articolo(buffer.get(0), new BigDecimal(buffer.get(1))));
-                    case 4 ->
-                            list.add(new Articolo(buffer.get(0), new BigDecimal(buffer.get(1)), Integer.parseInt(buffer.get(2)), buffer.get(3)));
+                    case 4 -> list.add(new Articolo(buffer.get(0), new BigDecimal(buffer.get(1)),
+                            Integer.parseInt(buffer.get(2)), buffer.get(3)));
                 }
-
             }
             bufferedReader.close();
             return new ListaSpesa(listName, list);

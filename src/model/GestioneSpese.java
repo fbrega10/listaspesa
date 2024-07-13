@@ -12,24 +12,20 @@ import java.util.Set;
 /**
  * La classe GestioneSpese permette di gestire contemporaneamente piu' spese e tiene traccia di tutte
  * le categorie che vengono introdotte nei vari articoli che compongono.
- * La gestione delle categorie avviene attraverso il campo statico Set<String> categorie che e' un HashSet
+ * La gestione delle categorie avviene attraverso il campo Set<String> categorie che e' un HashSet
  * e garantisce l'unicita' delle categorie (string). Il metodo equals non deve essere implementato (String).
- * Un inizializzatore statico di classe istanzia il campo categorie con una nuova istanza di HashSet a cui
- * aggiunge direttamente la categoria di default (da requisito).
  */
 public class GestioneSpese {
-    private List<ListaSpesa> listaSpese;
-    private static Set<String> categorie;
 
-    static {
-        categorie = new HashSet<>();
-        GestioneSpese.categorie.add(Costanti.CATEGORIA_DEFAULT);
-    }
+    private List<ListaSpesa> listaSpese;
+    private Set<String> categorie;
 
     /**
      * Costruttore GestioneSpese.
      */
     public GestioneSpese() {
+        categorie = new HashSet<>();
+        this.categorie.add(Costanti.CATEGORIA_DEFAULT);
         this.listaSpese = new ArrayList<>();
     }
 
@@ -40,11 +36,8 @@ public class GestioneSpese {
      * @return the boolean
      */
     public boolean addCategoria(String categoria) {
-        if (categoria == null || GestioneSpese.categorie.contains(categoria)) {
-            return false;
-        }
-        GestioneSpese.categorie.add(categoria);
-        return true;
+       return this.categorie.add(categoria);
+
     }
 
     /**
@@ -56,11 +49,11 @@ public class GestioneSpese {
      */
     public boolean removeCategoria(String categoria) {
         if (categoria.equals(Costanti.CATEGORIA_DEFAULT)) return false;
-        if (GestioneSpese.categorie.contains(categoria)) {
+        if (this.categorie.contains(categoria)) {
             Optional.of(this.listaSpese)
                     .orElse(Collections.emptyList())
                     .forEach(lista -> lista.eliminaCategoria(categoria));
-            GestioneSpese.categorie.remove(categoria);
+            this.categorie.remove(categoria);
             return true;
         } else return false;
     }
@@ -94,13 +87,32 @@ public class GestioneSpese {
     }
 
     /**
+     * Gets lista spese.
+     *
+     * @return le liste della spesa
+     */
+    public List<ListaSpesa> getListaSpese() {
+        return listaSpese;
+    }
+
+    /**
+     * Gets categorie.
+     *
+     * @return il set di categorie
+     */
+    public Set<String> getCategorie() {
+        return categorie;
+    }
+
+    /**
      * Reset gestione spese riporta l'oggetto alle impostazioni di fabbrica: ovvero elimina tutte le categorie
      * (ad eccezione di quella di default) e svuota il gestore di tutte le spese che erano state precedentemente
      * aggiunte.
      */
     public void resetGestioneSpese() {
         this.listaSpese.clear();
-        GestioneSpese.categorie.clear();
-        GestioneSpese.categorie.add(Costanti.CATEGORIA_DEFAULT);
+        this.categorie.clear();
+        this.categorie.add(Costanti.CATEGORIA_DEFAULT);
     }
+
 }
