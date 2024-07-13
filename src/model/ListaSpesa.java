@@ -189,4 +189,23 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         if (!(obj instanceof ListaSpesa temp)) return false;
         return this.nome.equals(temp.getNome()) && this.listaArticoli.equals(temp.getListaArticoli());
     }
+
+    public String toCsv() {
+        if (this.listaArticoli.isEmpty()) return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.nome);
+        for (Articolo a : this.listaArticoli) {
+            stringBuilder.append("\n");
+            stringBuilder.append(a.toCsvFormat());
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "ListaSpesa{" +
+                "nome='" + nome + '\'' +
+                ", listaArticoli=" + listaArticoli +
+                '}';
+    }
 }

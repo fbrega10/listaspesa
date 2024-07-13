@@ -13,6 +13,16 @@ public class Articolo implements Serializable {
     private int quantita;
     private String categoria;
 
+    /**
+     * Istanzia un nuovo Articolo.
+     * Lancia un'eccezione di tipo ArticoloException per prezzo negativo, non possibile per il dominio del dato,
+     * oppure per nome articolo settato a null.
+     * Di default la categoria e' preimpostata, cosi' come la quantita' a 1(se non definita).
+     *
+     * @param nomeArticolo   nome dell'articolo (String)
+     * @param prezzoUnitario il prezzo unitario (BigDecimal)
+     * @throws ArticoloException Eccezione custom
+     */
     public Articolo(String nomeArticolo, BigDecimal prezzoUnitario) throws ArticoloException {
         //da requisito occorre inizializzare la categoria a default in mancanza di un dato
         //cosi come la quantita che va impostata a 1
@@ -26,6 +36,18 @@ public class Articolo implements Serializable {
         this.quantita = Costanti.QUANTITA_DEFAULT;
     }
 
+    /**
+     * Istanzia un nuovo Articolo.
+     * Lancia un'eccezione di tipo ArticoloException per prezzo negativo, non possibile per il dominio del dato,
+     * oppure per nome articolo settato a null.
+     * Di default la categoria e' preimpostata, cosi' come la quantita' a 1 (se non definita).
+     *
+     * @param nomeArticolo   nome dell'articolo (String)
+     * @param prezzoUnitario il prezzo unitario (BigDecimal)
+     * @param quantita       la quantita
+     * @param categoria      la categoria (String)
+     * @throws ArticoloException Eccezione custom
+     */
     public Articolo(String nomeArticolo, BigDecimal prezzoUnitario, int quantita, String categoria) throws ArticoloException {
         this(nomeArticolo, prezzoUnitario);
         if (quantita <= 0) {
@@ -44,8 +66,12 @@ public class Articolo implements Serializable {
                 && this.categoria.equals(s.getCategoria());
     }
 
+    /**
+     * Calcola prezzo del prodotto come moltiplicazione tra la quantita' e il suo prezzo unitario
+     *
+     * @return BigDecimal corrispondente alla moltiplicazione tra prezzo unitario e quantita'
+     */
     public BigDecimal calcolaPrezzo() {
-        //calcola il prezzo del prodotto corrente
         return this.getPrezzoUnitario().multiply(BigDecimal.valueOf(this.getQuantita()));
     }
 
@@ -84,16 +110,28 @@ public class Articolo implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("nome articolo : ")
-                .append(this.nomeArticolo)
-                .append(" prezzo unitario: ")
-                .append(this.prezzoUnitario.toString())
-                .append(" quantita : ")
-                .append(this.quantita)
-                .append(" categoria : ")
-                .append(this.categoria);
-        return sb.toString();
+        return "Articolo{" +
+                "nomeArticolo='" + nomeArticolo + '\'' +
+                ", prezzoUnitario=" + prezzoUnitario +
+                ", quantita=" + quantita +
+                ", categoria='" + categoria + '\'' +
+                '}';
+    }
+
+    /**
+     * Trasforma l'Articolo in formato stringa per scrittura su csv
+     * Delimita i vari campi da un carattere ';'
+     *
+     * @return la stringa formattata
+     */
+    public String toCsvFormat() {
+        return this.nomeArticolo
+                + ";"
+                + this.prezzoUnitario
+                + ";"
+                + this.quantita
+                + ";"
+                + this.categoria;
     }
 
     public static class ArticoloPrezzoComparator implements Comparator<Articolo> {
