@@ -1,6 +1,8 @@
 package test;
 
+import exceptions.ArticoloException;
 import exceptions.ListWriterReaderException;
+import exceptions.ListaSpesaException;
 import io.ListWriterReader;
 import model.ListaSpesa;
 import org.junit.jupiter.api.AfterAll;
@@ -24,7 +26,7 @@ class ListWriterReaderTest {
     }
 
     @Test
-    void readFileCsv() throws ListWriterReaderException {
+    void readFileCsv() throws ListWriterReaderException, ListaSpesaException, IOException, ArticoloException {
         System.out.println(new File("").getAbsoluteFile());
         ListaSpesa list = ListWriterReader.readFile(fileName);
         System.out.println(list);
@@ -32,7 +34,7 @@ class ListWriterReaderTest {
         Assertions.assertEquals(2, list.size());
     }
     @Test
-    void writeFileCsv() throws ListWriterReaderException, IOException{
+    void writeFileCsv() throws ListWriterReaderException, IOException, ListaSpesaException, ArticoloException {
       ListaSpesa spesa = ListWriterReader.readFile(fileName);
       ListWriterReader.writeToCsv(output, spesa);
       Assertions.assertNotNull(ListWriterReader.readFile(fileName));

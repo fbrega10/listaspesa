@@ -1,8 +1,11 @@
 package io;
 
+import exceptions.ArticoloException;
 import exceptions.ListWriterReaderException;
+import exceptions.ListaSpesaException;
 import model.Articolo;
 import model.ListaSpesa;
+import utils.Costanti;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,7 +37,7 @@ public class ListWriterReader {
      * @throws ListWriterReaderException eccezione in caso di eccezioni per I/O o file non trovato o cast exception per
      *                                   formato errato nei tipi dato di un Articolo/ListaSpesa
      */
-    public static ListaSpesa readFile(String fileName) throws ListWriterReaderException {
+    public static ListaSpesa readFile(String fileName) throws ListWriterReaderException, IOException, ArticoloException, ListaSpesaException {
         try {
             String file = path + fileName;
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -51,8 +54,8 @@ public class ListWriterReader {
             }
             bufferedReader.close();
             return new ListaSpesa(listName, list);
-        } catch (Exception e) {
-            throw new ListWriterReaderException(e.getMessage());
+        } catch (NumberFormatException e){
+            throw new ArticoloException(Costanti.ECCEZ_VALIDAZIONE_QUANTITA);
         }
     }
 

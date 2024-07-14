@@ -7,5 +7,6 @@ public class Costanti {
     public static final String CATEGORIA_DEFAULT = "Non Categorizzati";
     public static final String NOME_ARTICOLO_INVALIDO = "Il nome di un articolo non puo' essere null";
     public static final int QUANTITA_DEFAULT = 1;
+    public static final String ECCEZ_VALIDAZIONE_QUANTITA = "Formattazione file non standard, la quantita' rappresentata come intero";
 
 }
