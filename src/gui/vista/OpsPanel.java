@@ -12,8 +12,10 @@ import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 
 public class OpsPanel extends JPanel {
+
     private ControlloGestioneSpese controllo;
     public OpsPanel(ControlloGestioneSpese controllo){
+
         this.controllo = controllo;
         setLayout(new FlowLayout());
 
@@ -31,5 +33,7 @@ public class OpsPanel extends JPanel {
 
         addLista.addActionListener(controllo);
         removeLista.addActionListener(controllo);
+        addCategoria.addActionListener(controllo);
+        rimuoviCategoria.addActionListener(controllo);
     }
 }

@@ -36,7 +36,7 @@ public class GestioneSpese {
      * @return the boolean
      */
     public boolean addCategoria(String categoria) {
-       return this.categorie.add(categoria);
+        return this.categorie.add(categoria);
 
     }
 
@@ -84,6 +84,18 @@ public class GestioneSpese {
         if (!this.listaSpese.contains(listaSpesa)) return false;
         this.listaSpese.remove(listaSpesa);
         return true;
+    }
+
+    public boolean rimuoviListaSpesa(String nomeLista) {
+        if (nomeLista != null) {
+            return this.listaSpese
+                    .remove(this.listaSpese
+                            .stream()
+                            .filter(lista -> lista.getNome().equalsIgnoreCase(nomeLista))
+                            .findFirst()
+                            .orElse(null));
+        }
+        return false;
     }
 
     /**

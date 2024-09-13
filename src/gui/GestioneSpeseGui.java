@@ -14,7 +14,7 @@ public class GestioneSpeseGui extends JFrame {
     public GestioneSpeseGui(GestioneSpese model) {
         this.model = model;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(200, 200, 550, 400);
+        setBounds(200, 200, 850, 600);
         setTitle(" Gestione liste della spesa ");
         JPanel gestioneSpesePanel = new GestioneSpesePanel(model);
         setContentPane(gestioneSpesePanel);
