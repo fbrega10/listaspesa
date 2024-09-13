@@ -21,12 +21,10 @@ public class FinestraDialogo {
         if (StringUtils.checkNullOrEmpty(nomeLista)) {
             try {
                 ListaSpesa listaSpesa = new ListaSpesa(nomeLista);
-
             } catch (ListaSpesaException e) {
-                JOptionPane.showMessageDialog(new JOptionPane(), "Errore nome lista non valido : " + nomeLista);
+                mostraMessaggio("Errore nome lista non valido : " + nomeLista);
                 return;
             }
-
         }
         System.out.println("nome lista " + nomeLista);
     }
@@ -35,9 +33,10 @@ public class FinestraDialogo {
         String nomeCategoria = JOptionPane.showInputDialog("Inserisci una nuova categoria: ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
             if (model.getCategorie().contains(nomeCategoria)) {
-                JOptionPane.showMessageDialog(new JOptionPane(), "Categoria " + nomeCategoria + " gia' presente.");
+                mostraMessaggio("Categoria " + nomeCategoria + " gia' presente.");
             } else {
                 model.addCategoria(nomeCategoria);
+                mostraMessaggio("categoria " + nomeCategoria + " aggiunta.");
             }
         }
     }
@@ -46,12 +45,12 @@ public class FinestraDialogo {
         String nomeLista = JOptionPane.showInputDialog("Inserisci nome lista da rimuovere: ");
         if (StringUtils.checkNullOrEmpty(nomeLista)) {
             if (this.model.rimuoviListaSpesa(nomeLista)) {
-                JOptionPane.showMessageDialog(new JOptionPane(), "lista : " + nomeLista + " rimossa.");
+                mostraMessaggio("lista : " + nomeLista + " rimossa.");
             } else {
-                JOptionPane.showMessageDialog(new JOptionPane(), "lista : " + nomeLista + " non presente.");
+                mostraMessaggio("lista : " + nomeLista + " non presente.");
             }
         } else {
-            JOptionPane.showMessageDialog(new JOptionPane(), "Nome inserito non valido.");
+            mostraMessaggio("Nome inserito non valido.");
         }
     }
 
@@ -59,12 +58,15 @@ public class FinestraDialogo {
         String nomeCategoria = JOptionPane.showInputDialog("Inserisci categoria da rimuovere: ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
             if (model.removeCategoria(nomeCategoria)) {
-                JOptionPane.showMessageDialog(new JOptionPane(), "Categoria " + nomeCategoria + " rimossa.");
+                mostraMessaggio("Categoria " + nomeCategoria + " rimossa.");
                 System.out.println("categoria aggiunta : " + nomeCategoria);
-            } else JOptionPane.showMessageDialog(null, "Categoria non presente");
+            } else mostraMessaggio("Categoria non presente");
         } else {
-            JOptionPane.showMessageDialog(new JOptionPane(), "Errore nella categoria inserita: deve essere inserita una stringa");
+            mostraMessaggio("Errore nella categoria inserita: deve essere inserita una stringa");
         }
     }
 
+    private static void mostraMessaggio(String messaggio) {
+        JOptionPane.showMessageDialog(new JOptionPane(), messaggio);
+    }
 }
