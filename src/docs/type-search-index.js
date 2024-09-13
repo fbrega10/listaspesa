@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"model","l":"Articolo"},{"p":"model","l":"Articolo.ArticoloPrezzoComparator"},{"p":"model","l":"Articolo.ArticoloPrezzoUnitarioComparator"},{"p":"model","l":"GestioneSpese"},{"p":"model","l":"ListaSpesa"}];updateSearchResults();

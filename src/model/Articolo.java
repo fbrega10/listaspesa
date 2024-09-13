@@ -110,8 +110,7 @@ public class Articolo implements Serializable {
 
     @Override
     public String toString() {
-        return "Articolo{" +
-                "nomeArticolo='" + nomeArticolo + '\'' +
+        return "{ nomeArticolo='" + nomeArticolo + '\'' +
                 ", prezzoUnitario=" + prezzoUnitario +
                 ", quantita=" + quantita +
                 ", categoria='" + categoria + '\'' +

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ListaSpesa implements Serializable, Iterable<Articolo> {
     //class fields
     private String nome;
-    private ArrayList<Articolo> listaArticoli;
+    private List<Articolo> listaArticoli;
 
     /**
      * Istanzia una nuova lista a partire dal suo nome.
@@ -36,7 +36,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         listaArticoli = new ArrayList<>();
     }
 
-    public ListaSpesa(String nome, ArrayList<Articolo> list) throws ListaSpesaException {
+    public ListaSpesa(String nome, List<Articolo> list) throws ListaSpesaException {
         //non accetto come argomento della funzione un nome null
         this(nome);
         this.listaArticoli = list;
@@ -76,7 +76,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
      */
     public List<Articolo> getArticoliDiCategoria(String categoria) {
         if (categoria == null) return Collections.emptyList();
-        return Optional.of(this.listaArticoli)
+        return Optional.of(listaArticoli)
                 .orElse(new ArrayList<>())
                 .stream()
                 .filter(articolo -> articolo.getCategoria() != null && articolo.getCategoria().equals(categoria))
@@ -89,7 +89,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
      * @return l'Articolo in questione
      */
     public Articolo getArticoloPiuCostoso() {
-        if (this.listaArticoli.isEmpty()) return null;
+        if (listaArticoli.isEmpty()) return null;
         return this.listaArticoli.
                 stream()
                 .max(new Articolo.ArticoloPrezzoComparator())
@@ -174,7 +174,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
      *
      * @param listaArticoli la lista di articoli
      */
-    public void setListaArticoli(ArrayList<Articolo> listaArticoli) {
+    public void setListaArticoli(List<Articolo> listaArticoli) {
         this.listaArticoli = listaArticoli;
     }
 
@@ -203,9 +203,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
 
     @Override
     public String toString() {
-        return "ListaSpesa{" +
-                "nome='" + nome + '\'' +
-                ", listaArticoli=" + listaArticoli +
-                '}';
+        return "nome  : '" + nome + '\'' +
+                ", articoli: " + listaArticoli;
     }
 }

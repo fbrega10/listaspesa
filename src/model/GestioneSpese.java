@@ -104,6 +104,13 @@ public class GestioneSpese {
         return categorie;
     }
 
+    @Override
+    public String toString() {
+        return "categorie = " + categorie + "\n" +
+                "liste della spesa = " + listaSpese;
+
+    }
+
     /**
      * Reset gestione spese riporta l'oggetto alle impostazioni di fabbrica: ovvero elimina tutte le categorie
      * (ad eccezione di quella di default) e svuota il gestore di tutte le spese che erano state precedentemente

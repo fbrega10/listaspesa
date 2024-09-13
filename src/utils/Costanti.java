@@ -8,5 +8,9 @@ public class Costanti {
     public static final String NOME_ARTICOLO_INVALIDO = "Il nome di un articolo non puo' essere null";
     public static final int QUANTITA_DEFAULT = 1;
     public static final String ECCEZ_VALIDAZIONE_QUANTITA = "Formattazione file non standard, la quantita' rappresentata come intero";
+    public static final String BUTTON_AGGIUNGI_LISTA = "aggiungi lista";
+    public static final String BUTTON_RIMUOVI_LISTA = "rimuovi lista";
+    public static final String BUTTON_AGGIUNGI_CATEGORIA = "aggiungi categoria";
+    public static final String BUTTON_RIMUOVI_CATEGORIA = "rimuovi categoria";
 
 }
