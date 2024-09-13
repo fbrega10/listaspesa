@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
+import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
 import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 
@@ -31,9 +32,13 @@ public class OpsPanel extends JPanel {
         JButton rimuoviCategoria = new JButton(BUTTON_RIMUOVI_CATEGORIA);
         add(rimuoviCategoria);
 
+        JButton calcolaTotale = new JButton(BUTTON_CALCOLA_TOTALE);
+        add(calcolaTotale);
+
         addLista.addActionListener(controllo);
         removeLista.addActionListener(controllo);
         addCategoria.addActionListener(controllo);
         rimuoviCategoria.addActionListener(controllo);
+        calcolaTotale.addActionListener(controllo);
     }
 }

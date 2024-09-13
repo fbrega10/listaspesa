@@ -50,7 +50,7 @@ public class ContentPanel extends JPanel {
 
     }
 
-    public void updateView(){
+    public void updateView() {
         //refresh all the views
         modelToDefault(model);
         categorieModelSetter(model);
@@ -66,11 +66,32 @@ public class ContentPanel extends JPanel {
                 .forEach(lista -> defaultListModel.addElement(lista));
     }
 
-    private void categorieModelSetter(GestioneSpese model){
+    private void categorieModelSetter(GestioneSpese model) {
         categorieDefaultModel.clear();
         Optional.of(model)
                 .map(GestioneSpese::getCategorie)
                 .orElse(Collections.emptySet())
                 .forEach(this.categorieDefaultModel::addElement);
+    }
+
+    //GETTERS
+    public GestioneSpese getModel() {
+        return model;
+    }
+
+    public JList<ListaSpesa> getSpesaJList() {
+        return spesaJList;
+    }
+
+    public DefaultListModel<ListaSpesa> getDefaultListModel() {
+        return defaultListModel;
+    }
+
+    public JList<String> getCategorieJList() {
+        return categorieJList;
+    }
+
+    public DefaultListModel<String> getCategorieDefaultModel() {
+        return categorieDefaultModel;
     }
 }

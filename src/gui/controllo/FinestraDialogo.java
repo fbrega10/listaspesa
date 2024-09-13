@@ -1,8 +1,10 @@
 package gui.controllo;
 
 import exceptions.ListaSpesaException;
+import gui.vista.ContentPanel;
 import model.GestioneSpese;
 import model.ListaSpesa;
+import utils.Costanti;
 import utils.StringUtils;
 
 import javax.swing.JOptionPane;
@@ -10,9 +12,11 @@ import javax.swing.JOptionPane;
 public class FinestraDialogo {
 
     private GestioneSpese model;
+    private ContentPanel contenutoGestioneSpese;
 
-    public FinestraDialogo(GestioneSpese model) {
+    public FinestraDialogo(GestioneSpese model, ContentPanel contenutoGestioneSpese) {
         this.model = model;
+        this.contenutoGestioneSpese = contenutoGestioneSpese;
     }
 
     public void aggiungiLista() {
@@ -55,14 +59,23 @@ public class FinestraDialogo {
     }
 
     public void rimuoviCategoria() {
-        String nomeCategoria = JOptionPane.showInputDialog("Inserisci categoria da rimuovere: ");
-        if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
-            if (model.removeCategoria(nomeCategoria)) {
-                mostraMessaggio("Categoria " + nomeCategoria + " rimossa.");
-                System.out.println("categoria aggiunta : " + nomeCategoria);
-            } else mostraMessaggio("Categoria non presente");
-        } else {
-            mostraMessaggio("Errore nella categoria inserita: deve essere inserita una stringa");
+        String categoriaSelezionata = this.contenutoGestioneSpese.getCategorieJList().getSelectedValue();
+        if (categoriaSelezionata != null && categoriaSelezionata != Costanti.CATEGORIA_DEFAULT){
+            model.removeCategoria(categoriaSelezionata);
+            mostraMessaggio("Categoria " + categoriaSelezionata + " eliminata con successo.");
+        }
+        else{
+            mostraMessaggio("Selezionare una categoria prima di procedere con l'eliminazione");
+        }
+    }
+
+    public void calcolaTotale(){
+        ListaSpesa listaAttuale = this.contenutoGestioneSpese.getSpesaJList().getSelectedValue();
+        if (listaAttuale  != null){
+            mostraMessaggio(" prezzo totale per lista " + listaAttuale.getNome() + " e' di euro " + listaAttuale.calcolaCostoTotaleSpesa());
+        }
+        else {
+            mostraMessaggio("Errore: selezionare una lista per vedere il totale. ");
         }
     }
 

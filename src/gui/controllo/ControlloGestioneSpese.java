@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
+import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
 import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 
@@ -21,7 +22,7 @@ public class ControlloGestioneSpese implements ActionListener {
     public ControlloGestioneSpese(ContentPanel contenutoGestioneSpese, GestioneSpese model) {
         this.contenutoGestioneSpese = contenutoGestioneSpese;
         this.model = model;
-        this.finestraDialogo = new FinestraDialogo(model);
+        this.finestraDialogo = new FinestraDialogo(model, contenutoGestioneSpese);
     }
 
     //E' l'handler delle azioni (eventi), vanno usate la vista e il modello
@@ -34,6 +35,7 @@ public class ControlloGestioneSpese implements ActionListener {
             case BUTTON_RIMUOVI_LISTA -> this.finestraDialogo.rimuoviLista();
             case BUTTON_AGGIUNGI_CATEGORIA -> this.finestraDialogo.aggiungiCategoria();
             case BUTTON_RIMUOVI_CATEGORIA -> this.finestraDialogo.rimuoviCategoria();
+            case BUTTON_CALCOLA_TOTALE -> this.finestraDialogo.calcolaTotale();
         }
         this.contenutoGestioneSpese.updateView();
     }

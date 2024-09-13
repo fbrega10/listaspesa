@@ -12,5 +12,6 @@ public class Costanti {
     public static final String BUTTON_RIMUOVI_LISTA = "rimuovi lista";
     public static final String BUTTON_AGGIUNGI_CATEGORIA = "aggiungi categoria";
     public static final String BUTTON_RIMUOVI_CATEGORIA = "rimuovi categoria";
+    public static final String BUTTON_CALCOLA_TOTALE = "calcola totale";
 
 }
