@@ -13,8 +13,10 @@ public class GestioneSpesePanel extends JPanel {
         ContentPanel contenutoGestioneSpese = new ContentPanel(model);
         ControlloGestioneSpese controllo = new ControlloGestioneSpese(contenutoGestioneSpese, model);
         OpsPanel operazioniGestioneSpese = new OpsPanel(controllo);
+        SouthOpsPanel operazioniGestione = new SouthOpsPanel(controllo);
 
-        add(contenutoGestioneSpese, BorderLayout.CENTER);
         add(operazioniGestioneSpese, BorderLayout.NORTH);
+        add(operazioniGestione, BorderLayout.SOUTH);
+        add(contenutoGestioneSpese, BorderLayout.CENTER);
     }
 }

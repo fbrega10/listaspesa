@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 public class Articolo implements Serializable {
+
     private String nomeArticolo;
     private BigDecimal prezzoUnitario;
     private int quantita;
@@ -27,10 +28,7 @@ public class Articolo implements Serializable {
         //da requisito occorre inizializzare la categoria a default in mancanza di un dato
         //cosi come la quantita che va impostata a 1
         if (prezzoUnitario.compareTo(BigDecimal.ZERO) < 0)
-            throw new ArticoloException(Costanti.ECCEZ_PREZZO_NEGATIVO);
-        if (nomeArticolo == null)
-            throw new ArticoloException(Costanti.NOME_ARTICOLO_INVALIDO);
-        this.nomeArticolo = nomeArticolo;
+            throw new ArticoloException(Costanti.ECCEZ_PREZZO_NEGATIVO); if (nomeArticolo == null) throw new ArticoloException(Costanti.NOME_ARTICOLO_INVALIDO); this.nomeArticolo = nomeArticolo;
         this.prezzoUnitario = prezzoUnitario;
         this.categoria = Costanti.CATEGORIA_DEFAULT;
         this.quantita = Costanti.QUANTITA_DEFAULT;
@@ -110,9 +108,9 @@ public class Articolo implements Serializable {
 
     @Override
     public String toString() {
-        return "{ nomeArticolo: '" + nomeArticolo + '\'' + ", \n" +
-                 quantita + " x " +
-                prezzoUnitario+ "€\n" +
+        return "{ nomeArticolo: '" + nomeArticolo + '\'' + ", " +
+                quantita + " x " +
+                prezzoUnitario + "€" +
                 ", categoria: '" + categoria + '\'' + " }";
     }
 
