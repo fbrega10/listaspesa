@@ -7,9 +7,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
 import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
+import static utils.Costanti.BUTTON_RIMUOVI_ARTICOLO;
 import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 
@@ -36,6 +38,8 @@ public class ControlloGestioneSpese implements ActionListener {
             case BUTTON_AGGIUNGI_CATEGORIA -> this.finestraDialogo.aggiungiCategoria();
             case BUTTON_RIMUOVI_CATEGORIA -> this.finestraDialogo.rimuoviCategoria();
             case BUTTON_CALCOLA_TOTALE -> this.finestraDialogo.calcolaTotale();
+            //case BUTTON_RIMUOVI_ARTICOLO -> this.finestraDialogo.rimuoviArticolo();
+            case BUTTON_AGGIUNGI_ARTICOLO ->  this.finestraDialogo.aggiungiArticolo();
         }
         this.contenutoGestioneSpese.updateView();
     }
