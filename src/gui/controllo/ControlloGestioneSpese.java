@@ -38,7 +38,7 @@ public class ControlloGestioneSpese implements ActionListener {
             case BUTTON_AGGIUNGI_CATEGORIA -> this.finestraDialogo.aggiungiCategoria();
             case BUTTON_RIMUOVI_CATEGORIA -> this.finestraDialogo.rimuoviCategoria();
             case BUTTON_CALCOLA_TOTALE -> this.finestraDialogo.calcolaTotale();
-            //case BUTTON_RIMUOVI_ARTICOLO -> this.finestraDialogo.rimuoviArticolo();
+            case BUTTON_RIMUOVI_ARTICOLO -> this.finestraDialogo.rimuoviArticolo();
             case BUTTON_AGGIUNGI_ARTICOLO ->  this.finestraDialogo.aggiungiArticolo();
         }
         this.contenutoGestioneSpese.updateView();

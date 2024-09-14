@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Optional;
 
 public class FinestraDialogo {
 
@@ -32,9 +34,9 @@ public class FinestraDialogo {
             try {
                 ListaSpesa listaSpesa = new ListaSpesa(nomeLista);
                 model.addListaSpesa(listaSpesa);
-                mostraMessaggio("Aggiunta lista spesa : " + nomeLista);
+                mostraMessaggio("Aggiunta lista spesa : '" + nomeLista + "'");
             } catch (ListaSpesaException e) {
-                outputErrore("Errore nome lista non valido : " + nomeLista);
+                outputErrore("Errore nome lista non valido : '" + nomeLista + "'");
             }
         }
     }
@@ -43,10 +45,10 @@ public class FinestraDialogo {
         String nomeCategoria = JOptionPane.showInputDialog("Inserisci una nuova categoria : ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
             if (model.getCategorie().contains(nomeCategoria)) {
-                mostraMessaggio("Categoria " + nomeCategoria + " gia' presente.");
+                mostraMessaggio("Categoria '" + nomeCategoria + "' gia' presente.");
             } else {
                 model.addCategoria(nomeCategoria);
-                mostraMessaggio("categoria " + nomeCategoria + " aggiunta.");
+                mostraMessaggio("categoria '" + nomeCategoria + "' aggiunta.");
             }
         }
     }
@@ -57,21 +59,21 @@ public class FinestraDialogo {
             model.rimuoviListaSpesa(listaSpesa);
             mostraMessaggio("lista rimossa con successo.");
         } else {
-            outputErrore("selezionare una lista prima di rimuoverla.");
+            outputErrore("selezionare una lista per rimuoverla!");
         }
     }
 
     public void rimuoviCategoria() {
         String categoriaSelezionata = this.contenutoGestioneSpese.getCategorieJList().getSelectedValue();
         if (categoriaSelezionata == null) {
-            outputErrore("categoria non selezionata");
+            outputErrore("categoria non selezionata.");
             return;
         }
         if (!categoriaSelezionata.equalsIgnoreCase(Costanti.CATEGORIA_DEFAULT)) {
             model.removeCategoria(categoriaSelezionata);
-            mostraMessaggio("Categoria " + categoriaSelezionata + " eliminata con successo.");
+            mostraMessaggio("Categoria '" + categoriaSelezionata + "' eliminata con successo.");
         } else {
-            outputErrore("Selezionare una categoria prima di procedere con l'eliminazione");
+            outputErrore("Selezionare una categoria prima di procedere con l'eliminazione!");
         }
     }
 
@@ -80,7 +82,7 @@ public class FinestraDialogo {
         if (listaAttuale != null) {
             mostraMessaggio("il totale dovuto e' : \n" + listaAttuale.calcolaCostoTotaleSpesa() + " €");
         } else {
-            outputErrore("Errore: selezionare una lista per vedere il totale. ");
+            outputErrore("Errore: selezionare una lista per vederne il totale.");
         }
     }
 
@@ -127,10 +129,22 @@ public class FinestraDialogo {
 
     public void rimuoviArticolo() {
         ListaSpesa listaAttuale = retrieveListaSelezionata();
-        if (listaAttuale != null) {
-            String result = JOptionPane.showInputDialog("Inserisci nome articolo da rimuovere : ");
+        String result = JOptionPane.showInputDialog("Nome articolo da rimuovere");
+        if (listaAttuale != null && result != null) {
+            Articolo attuale = Optional.of(listaAttuale)
+                    .map(ListaSpesa::getListaArticoli)
+                    .orElse(Collections.emptyList())
+                    .stream()
+                    .filter(art -> art.getNomeArticolo().equalsIgnoreCase(result))
+                    .findFirst()
+                    .orElse(null);
+            model.rimuoviListaSpesa(listaAttuale);
+            listaAttuale.removeArticolo(attuale);
+            model.addListaSpesa(listaAttuale);
+            mostraMessaggio("Articolo rimosso correttamente.");
+        } else {
+            outputErrore("Selezionare lista e inserire nome articolo valido!");
         }
-
     }
 
     private static void mostraMessaggio(String messaggio) {
