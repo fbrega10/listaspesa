@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 public class FinestraDialogo {
@@ -107,11 +106,11 @@ public class FinestraDialogo {
             int result = JOptionPane.showConfirmDialog(new JOptionPane(""), panel, "Aggiungi Articolo", JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
                 try {
-
                     String nomeArticolo = nomeField.getText();
                     BigDecimal prezzoUnitario = new BigDecimal(prezzoField.getText());
-                    int quantita = Integer.parseInt(quantitaField.getText());
-                    String categoria = categoriaField.getText();
+                    Integer quantita = quantitaField.getText() == null || quantitaField.getText().isEmpty() ?
+                            null : Integer.parseInt(quantitaField.getText());
+                    String categoria = categoriaField.getText().isEmpty() ? null : categoriaField.getText();
 
                     Articolo nuovoArticolo = new Articolo(nomeArticolo, prezzoUnitario, quantita, categoria);
                     listaAttuale.addArticolo(nuovoArticolo);
@@ -165,6 +164,15 @@ public class FinestraDialogo {
             mostraMessaggio("Gli articoli per cui risulta un match sono : " + sb.toString());
         } else {
             outputErrore("Selezionare una lista prima di filtrare per categoria.");
+        }
+    }
+
+    public void trovaPiuCostoso() {
+        ListaSpesa listaSpesa = retrieveListaSelezionata();
+        if (listaSpesa == null) outputErrore("Selezionare lista prima per trovare articolo più costoso");
+        else if (listaSpesa.isEmpty()) mostraMessaggio("Lista selezionata vuota");
+        else {
+            mostraMessaggio("L'articolo più costoso è: \n " + listaSpesa.getArticoloPiuCostoso());
         }
     }
 

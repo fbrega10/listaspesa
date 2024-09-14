@@ -140,6 +140,13 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     }
 
     /**
+     * @return booleano che rappresenta lista vuota o meno
+     */
+    public boolean isEmpty(){
+        return this.listaArticoli.isEmpty();
+    }
+
+    /**
      * Size int
      *
      * @return la size della lista di articoli.
