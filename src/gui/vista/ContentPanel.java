@@ -19,20 +19,20 @@ public class ContentPanel extends JPanel {
     private GestioneSpese model;
 
     private JList<ListaSpesa> spesaJList;
-    private DefaultListModel<ListaSpesa> defaultListModel;
+    private DefaultListModel<ListaSpesa> listModel;
 
     private JList<String> categorieJList;
-    private DefaultListModel<String> categorieDefaultModel;
+    private DefaultListModel<String> categorieModel;
 
     public ContentPanel(GestioneSpese gestioneSpese) {
         //fields initialization
         this.model = gestioneSpese;
 
-        this.defaultListModel = new DefaultListModel<>();
-        this.categorieDefaultModel = new DefaultListModel<>();
+        this.listModel = new DefaultListModel<>();
+        this.categorieModel = new DefaultListModel<>();
 
-        this.spesaJList = new JList<>(defaultListModel);
-        this.categorieJList = new JList<>(categorieDefaultModel);
+        this.spesaJList = new JList<>(listModel);
+        this.categorieJList = new JList<>(categorieModel);
 
         updateView();
 
@@ -52,26 +52,26 @@ public class ContentPanel extends JPanel {
 
     public void updateView() {
         //refresh all the views
-        modelToDefault(model);
-        categorieModelSetter(model);
-        this.categorieJList = new JList<>(categorieDefaultModel);
-        this.spesaJList = new JList<>(defaultListModel);
+        aggiornaListeModel(model);
+        aggiornaCategorieModel(model);
+        this.categorieJList = new JList<>(categorieModel);
+        this.spesaJList = new JList<>(listModel);
     }
 
-    private void modelToDefault(GestioneSpese model) {
-        defaultListModel.clear();
+    private void aggiornaListeModel(GestioneSpese model) {
+        listModel.clear();
         Optional.of(model)
                 .map(GestioneSpese::getListaSpese)
                 .orElse(Collections.emptyList())
-                .forEach(lista -> defaultListModel.addElement(lista));
+                .forEach(lista -> listModel.addElement(lista));
     }
 
-    private void categorieModelSetter(GestioneSpese model) {
-        categorieDefaultModel.clear();
+    private void aggiornaCategorieModel(GestioneSpese model) {
+        categorieModel.clear();
         Optional.of(model)
                 .map(GestioneSpese::getCategorie)
                 .orElse(Collections.emptySet())
-                .forEach(this.categorieDefaultModel::addElement);
+                .forEach(categorieModel::addElement);
     }
 
     //GETTERS
@@ -83,15 +83,15 @@ public class ContentPanel extends JPanel {
         return spesaJList;
     }
 
-    public DefaultListModel<ListaSpesa> getDefaultListModel() {
-        return defaultListModel;
+    public DefaultListModel<ListaSpesa> getListModel() {
+        return listModel;
     }
 
     public JList<String> getCategorieJList() {
         return categorieJList;
     }
 
-    public DefaultListModel<String> getCategorieDefaultModel() {
-        return categorieDefaultModel;
+    public DefaultListModel<String> getCategorieModel() {
+        return categorieModel;
     }
 }

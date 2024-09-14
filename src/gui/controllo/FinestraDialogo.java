@@ -25,6 +25,8 @@ public class FinestraDialogo {
         if (StringUtils.checkNullOrEmpty(nomeLista)) {
             try {
                 ListaSpesa listaSpesa = new ListaSpesa(nomeLista);
+                model.addListaSpesa(listaSpesa);
+                mostraMessaggio("Aggiunta lista spesa : " + nomeLista);
             } catch (ListaSpesaException e) {
                 mostraMessaggio("Errore nome lista non valido : " + nomeLista);
                 return;
@@ -34,7 +36,7 @@ public class FinestraDialogo {
     }
 
     public void aggiungiCategoria() {
-        String nomeCategoria = JOptionPane.showInputDialog("Inserisci una nuova categoria: ");
+        String nomeCategoria = JOptionPane.showInputDialog("Inserisci una nuova categoria : ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
             if (model.getCategorie().contains(nomeCategoria)) {
                 mostraMessaggio("Categoria " + nomeCategoria + " gia' presente.");
@@ -46,21 +48,38 @@ public class FinestraDialogo {
     }
 
     public void rimuoviLista() {
-        String nomeLista = JOptionPane.showInputDialog("Inserisci nome lista da rimuovere: ");
-        if (StringUtils.checkNullOrEmpty(nomeLista)) {
-            if (this.model.rimuoviListaSpesa(nomeLista)) {
-                mostraMessaggio("lista : " + nomeLista + " rimossa.");
-            } else {
-                mostraMessaggio("lista : " + nomeLista + " non presente.");
-            }
-        } else {
-            mostraMessaggio("Nome inserito non valido.");
+        //String nomeLista = JOptionPane.showInputDialog("Inserisci nome lista da rimuovere : ");
+        //if (StringUtils.checkNullOrEmpty(nomeLista)) {
+            //if (this.model.rimuoviListaSpesa(nomeLista)) {
+                //mostraMessaggio("lista : " + nomeLista + " rimossa.");
+            //} else {
+                //mostraMessaggio("lista : " + nomeLista + " non presente.");
+            //}
+        //} else {
+            //mostraMessaggio("Nome inserito non valido.");
+        //}
+        ListaSpesa listaSpesa = this.contenutoGestioneSpese.getSpesaJList().getSelectedValue();
+        if (listaSpesa != null){
+            model.rimuoviListaSpesa(listaSpesa);
+            mostraMessaggio("lista rimossa con successo.");
+        }else{
+            mostraMessaggio("selezionare una lista prima di rimuoverla.");
         }
     }
 
     public void rimuoviCategoria() {
         String categoriaSelezionata = this.contenutoGestioneSpese.getCategorieJList().getSelectedValue();
-        if (categoriaSelezionata != null && categoriaSelezionata != Costanti.CATEGORIA_DEFAULT){
+        System.out.println(categoriaSelezionata);
+        System.out.println("totale categorie : " + this.contenutoGestioneSpese.getCategorieJList());
+        System.out.println("totale categorie model : " + this.model.getCategorie());
+        if (categoriaSelezionata == null){
+            mostraMessaggio("categoria non selezionata");
+            return ;
+        }
+        if (categoriaSelezionata.equals(Costanti.CATEGORIA_DEFAULT)){
+            mostraMessaggio("Impossibile eliminare categoria di default. Cambia categoria.");
+        }
+        if (categoriaSelezionata != null && !categoriaSelezionata.equalsIgnoreCase(Costanti.CATEGORIA_DEFAULT)){
             model.removeCategoria(categoriaSelezionata);
             mostraMessaggio("Categoria " + categoriaSelezionata + " eliminata con successo.");
         }
@@ -70,9 +89,13 @@ public class FinestraDialogo {
     }
 
     public void calcolaTotale(){
+        if (this.contenutoGestioneSpese.getSpesaJList().getSelectedIndex() == -1 ) {
+            System.out.println(this.contenutoGestioneSpese.getSpesaJList().getSelectedIndex());
+            mostraMessaggio("lista spese vuota");
+        }
         ListaSpesa listaAttuale = this.contenutoGestioneSpese.getSpesaJList().getSelectedValue();
-        if (listaAttuale  != null){
-            mostraMessaggio(" prezzo totale per lista " + listaAttuale.getNome() + " e' di euro " + listaAttuale.calcolaCostoTotaleSpesa());
+        if (listaAttuale != null){
+            mostraMessaggio("il totale dovuto e' : \n" + listaAttuale.calcolaCostoTotaleSpesa() + " €");
         }
         else {
             mostraMessaggio("Errore: selezionare una lista per vedere il totale. ");
