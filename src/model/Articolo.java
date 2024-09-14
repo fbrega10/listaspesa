@@ -18,7 +18,7 @@ public class Articolo implements Serializable {
      * Istanzia un nuovo Articolo.
      * Lancia un'eccezione di tipo ArticoloException per prezzo negativo, non possibile per il dominio del dato,
      * oppure per nome articolo settato a null.
-     * Di default la categoria e' preimpostata, cosi' come la quantita' a 1(se non definita).
+     * Di default la categoria e' preimpostata, cosi' come la quantita' a 1 se non definita (da requisito).
      *
      * @param nomeArticolo   nome dell'articolo (String)
      * @param prezzoUnitario il prezzo unitario (BigDecimal)
@@ -28,7 +28,9 @@ public class Articolo implements Serializable {
         //da requisito occorre inizializzare la categoria a default in mancanza di un dato
         //cosi come la quantita che va impostata a 1
         if (prezzoUnitario.compareTo(BigDecimal.ZERO) < 0)
-            throw new ArticoloException(Costanti.ECCEZ_PREZZO_NEGATIVO); if (nomeArticolo == null) throw new ArticoloException(Costanti.NOME_ARTICOLO_INVALIDO); this.nomeArticolo = nomeArticolo;
+            throw new ArticoloException(Costanti.ECCEZ_PREZZO_NEGATIVO);
+        if (nomeArticolo == null) throw new ArticoloException(Costanti.NOME_ARTICOLO_INVALIDO);
+        this.nomeArticolo = nomeArticolo;
         this.prezzoUnitario = prezzoUnitario;
         this.categoria = Costanti.CATEGORIA_DEFAULT;
         this.quantita = Costanti.QUANTITA_DEFAULT;
@@ -44,15 +46,16 @@ public class Articolo implements Serializable {
      * @param prezzoUnitario il prezzo unitario (BigDecimal)
      * @param quantita       la quantita
      * @param categoria      la categoria (String)
-     * @throws ArticoloException Eccezione custom
+     * @throws ArticoloException Eccezione custom nel caso in cui la quantita' sia negativa
      */
-    public Articolo(String nomeArticolo, BigDecimal prezzoUnitario, int quantita, String categoria) throws ArticoloException {
+    public Articolo(String nomeArticolo, BigDecimal prezzoUnitario, Integer quantita, String categoria) throws ArticoloException {
         this(nomeArticolo, prezzoUnitario);
-        if (quantita <= 0) {
-            throw new ArticoloException(Costanti.ECCEZ_QUANTITA_NON_CONSENTITA);
+        if (categoria != null) this.categoria = categoria;
+        if (quantita != null && quantita > 0) {
+            this.quantita = quantita;
+        } else if (quantita != null && quantita < 0) {
+            throw new ArticoloException("Non si accettano quantita' negative.");
         }
-        this.quantita = quantita;
-        this.categoria = categoria;
     }
 
     @Override
