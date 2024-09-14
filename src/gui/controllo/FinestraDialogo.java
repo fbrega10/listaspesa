@@ -29,7 +29,7 @@ public class FinestraDialogo {
     }
 
     public void aggiungiLista() {
-        String nomeLista = JOptionPane.showInputDialog("Inserisci il nome della lista : ");
+        String nomeLista = finestraInput("Inserisci il nome della lista : ");
         if (StringUtils.checkNullOrEmpty(nomeLista)) {
             try {
                 ListaSpesa listaSpesa = new ListaSpesa(nomeLista);
@@ -42,7 +42,7 @@ public class FinestraDialogo {
     }
 
     public void aggiungiCategoria() {
-        String nomeCategoria = JOptionPane.showInputDialog("Inserisci una nuova categoria : ");
+        String nomeCategoria = finestraInput("Inserisci una nuova categoria : ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
             if (model.getCategorie().contains(nomeCategoria)) {
                 mostraMessaggio("Categoria '" + nomeCategoria + "' gia' presente.");
@@ -129,7 +129,7 @@ public class FinestraDialogo {
 
     public void rimuoviArticolo() {
         ListaSpesa listaAttuale = retrieveListaSelezionata();
-        String result = JOptionPane.showInputDialog("Nome articolo da rimuovere");
+        String result = finestraInput("Nome articolo da rimuovere");
         if (listaAttuale != null && result != null) {
             Articolo attuale = Optional.of(listaAttuale)
                     .map(ListaSpesa::getListaArticoli)
@@ -147,6 +147,25 @@ public class FinestraDialogo {
         }
     }
 
+    public void filtraPerCategoria() {
+        String prefissoCategoria = finestraInput("Filtro categoria");
+        ListaSpesa listaSpesa = retrieveListaSelezionata();
+        if (prefissoCategoria != null && listaSpesa != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Gli articoli per cui risulta un match sono : ");
+            Optional.of(listaSpesa)
+                    .map(ListaSpesa::getListaArticoli)
+                    .orElse(Collections.emptyList())
+                    .stream()
+                    .filter(art -> art.getCategoria().startsWith(prefissoCategoria))
+                    .forEach(art -> sb.append("\n").append(art.toString()));
+            mostraMessaggio(sb.toString());
+        }
+        else{
+            outputErrore("Selezionare una lista prima di filtrare per categoria.");
+        }
+    }
+
     private static void mostraMessaggio(String messaggio) {
         JOptionPane.showMessageDialog(new JOptionPane(), messaggio);
     }
@@ -157,5 +176,9 @@ public class FinestraDialogo {
 
     private static void outputErrore(String messaggio) {
         JOptionPane.showMessageDialog(new JOptionPane(), messaggio, "Errore", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private static String finestraInput(String messaggio) {
+        return JOptionPane.showInputDialog(messaggio);
     }
 }

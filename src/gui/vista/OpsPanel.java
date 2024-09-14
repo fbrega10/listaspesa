@@ -10,6 +10,7 @@ import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
 import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
+import static utils.Costanti.BUTTON_FILTRA_PER_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_ARTICOLO;
 import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
@@ -44,6 +45,9 @@ public class OpsPanel extends JPanel {
         JButton rimuoviArticolo = new JButton(BUTTON_RIMUOVI_ARTICOLO);
         add(rimuoviArticolo);
 
+        JButton filtraPerCategoria = new JButton(BUTTON_FILTRA_PER_CATEGORIA);
+        add(filtraPerCategoria);
+
         addLista.addActionListener(controllo);
         removeLista.addActionListener(controllo);
         addCategoria.addActionListener(controllo);
@@ -51,5 +55,6 @@ public class OpsPanel extends JPanel {
         calcolaTotale.addActionListener(controllo);
         aggiungiArticolo.addActionListener(controllo);
         rimuoviArticolo.addActionListener(controllo);
+        filtraPerCategoria.addActionListener(controllo);
     }
 }
