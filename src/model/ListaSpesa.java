@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
  * Lista spesa rappresenta una collezione di Articoli, ogni lista ha un nome proprio che la definisce.
  * Deve essere iterabile in modo da poter scorrere dal gestore le liste.
  * La lista deve essere mutabile, motivo per cui utilizzo ArrayList, utilizzare un List generico avrebbe
- * introdotto la possibilita' di assegnare Collezioni immutabili come List.of(..) o Arrays.asList(..)
- * che non supportano direttamente le operazioni di add/remove
+ * introdotto la possibilita' di assegnare Collezioni immutabili  che non supportano direttamente
+ * le operazioni di add/remove
  */
 public class ListaSpesa implements Serializable, Iterable<Articolo> {
     //class fields
@@ -80,6 +80,21 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
                 .orElse(new ArrayList<>())
                 .stream()
                 .filter(articolo -> articolo.getCategoria() != null && articolo.getCategoria().equals(categoria))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Data una categoria viene restituita la lista degli Articoli la cui categoria
+     * inizia con la stringa di input, altrimenti si ottiene una lista vuota.
+     * @param categoria : prefisso in stringa
+     * @return List<Articolo>, può essere vuota.
+     */
+    public List<Articolo> getArticoliDiCategoriaPrefix(String categoria){
+        if (categoria == null) return Collections.emptyList();
+        return Optional.of(listaArticoli)
+                .orElse(new ArrayList<>())
+                .stream()
+                .filter(articolo -> articolo.getCategoria() != null && articolo.getCategoria().startsWith(categoria))
                 .collect(Collectors.toList());
     }
 
@@ -204,6 +219,6 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     @Override
     public String toString() {
         return "nome  : '" + nome + '\'' +
-                ", articoli: " + listaArticoli;
+                ",  " + listaArticoli;
     }
 }

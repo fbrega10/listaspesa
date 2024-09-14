@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class FinestraDialogo {
@@ -148,20 +149,21 @@ public class FinestraDialogo {
     }
 
     public void filtraPerCategoria() {
-        String prefissoCategoria = finestraInput("Filtro categoria");
+
+        String prefissoCategoria = finestraInput("Inserisci filtro categoria");
         ListaSpesa listaSpesa = retrieveListaSelezionata();
+
         if (prefissoCategoria != null && listaSpesa != null) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Gli articoli per cui risulta un match sono : ");
             Optional.of(listaSpesa)
-                    .map(ListaSpesa::getListaArticoli)
+                    .map(lista -> lista.getArticoliDiCategoriaPrefix(prefissoCategoria))
                     .orElse(Collections.emptyList())
-                    .stream()
-                    .filter(art -> art.getCategoria().startsWith(prefissoCategoria))
-                    .forEach(art -> sb.append("\n").append(art.toString()));
-            mostraMessaggio(sb.toString());
-        }
-        else{
+                    .forEach(articolo -> sb.append("\n").append(articolo.toString()));
+            if (sb.isEmpty()) {
+                mostraMessaggio("Nessun risultato per il prefisso di categoria selezionato.");
+            }
+            mostraMessaggio("Gli articoli per cui risulta un match sono : " + sb.toString());
+        } else {
             outputErrore("Selezionare una lista prima di filtrare per categoria.");
         }
     }

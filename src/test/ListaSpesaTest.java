@@ -81,6 +81,11 @@ class ListaSpesaTest {
         this.listaSpesa.setListaArticoli(new ArrayList<>());
         Assertions.assertEquals(0, listaSpesa.size());
     }
+    @Test
+    void getArticoliDiCategoriaPrefixTest(){
+        Assertions.assertEquals(2, this.listaSpesa.getArticoliDiCategoriaPrefix("Ali").size());
+        Assertions.assertEquals(0, this.listaSpesa.getArticoliDiCategoriaPrefix(null).size());
+    }
 
     private Articolo mockArticolo() throws ArticoloException {
         return new Articolo(NOME_ARTICOLO, PREZZO_UNITARIO, QUANTITA_DEFAULT, CATEGORIA_DOLCI);
