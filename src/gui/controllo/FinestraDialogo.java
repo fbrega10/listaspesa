@@ -20,7 +20,6 @@ public class FinestraDialogo {
     }
 
     public void aggiungiLista() {
-        //TODO: inserisci nuova lista
         String nomeLista = JOptionPane.showInputDialog("Inserisci il nome della lista : ");
         if (StringUtils.checkNullOrEmpty(nomeLista)) {
             try {
@@ -29,10 +28,8 @@ public class FinestraDialogo {
                 mostraMessaggio("Aggiunta lista spesa : " + nomeLista);
             } catch (ListaSpesaException e) {
                 mostraMessaggio("Errore nome lista non valido : " + nomeLista);
-                return;
             }
         }
-        System.out.println("nome lista " + nomeLista);
     }
 
     public void aggiungiCategoria() {
@@ -48,56 +45,34 @@ public class FinestraDialogo {
     }
 
     public void rimuoviLista() {
-        //String nomeLista = JOptionPane.showInputDialog("Inserisci nome lista da rimuovere : ");
-        //if (StringUtils.checkNullOrEmpty(nomeLista)) {
-            //if (this.model.rimuoviListaSpesa(nomeLista)) {
-                //mostraMessaggio("lista : " + nomeLista + " rimossa.");
-            //} else {
-                //mostraMessaggio("lista : " + nomeLista + " non presente.");
-            //}
-        //} else {
-            //mostraMessaggio("Nome inserito non valido.");
-        //}
         ListaSpesa listaSpesa = this.contenutoGestioneSpese.getSpesaJList().getSelectedValue();
-        if (listaSpesa != null){
+        if (listaSpesa != null) {
             model.rimuoviListaSpesa(listaSpesa);
             mostraMessaggio("lista rimossa con successo.");
-        }else{
+        } else {
             mostraMessaggio("selezionare una lista prima di rimuoverla.");
         }
     }
 
     public void rimuoviCategoria() {
         String categoriaSelezionata = this.contenutoGestioneSpese.getCategorieJList().getSelectedValue();
-        System.out.println(categoriaSelezionata);
-        System.out.println("totale categorie : " + this.contenutoGestioneSpese.getCategorieJList());
-        System.out.println("totale categorie model : " + this.model.getCategorie());
-        if (categoriaSelezionata == null){
+        if (categoriaSelezionata == null) {
             mostraMessaggio("categoria non selezionata");
-            return ;
+            return;
         }
-        if (categoriaSelezionata.equals(Costanti.CATEGORIA_DEFAULT)){
-            mostraMessaggio("Impossibile eliminare categoria di default. Cambia categoria.");
-        }
-        if (categoriaSelezionata != null && !categoriaSelezionata.equalsIgnoreCase(Costanti.CATEGORIA_DEFAULT)){
+        if (!categoriaSelezionata.equalsIgnoreCase(Costanti.CATEGORIA_DEFAULT)) {
             model.removeCategoria(categoriaSelezionata);
             mostraMessaggio("Categoria " + categoriaSelezionata + " eliminata con successo.");
-        }
-        else{
+        } else {
             mostraMessaggio("Selezionare una categoria prima di procedere con l'eliminazione");
         }
     }
 
-    public void calcolaTotale(){
-        if (this.contenutoGestioneSpese.getSpesaJList().getSelectedIndex() == -1 ) {
-            System.out.println(this.contenutoGestioneSpese.getSpesaJList().getSelectedIndex());
-            mostraMessaggio("lista spese vuota");
-        }
+    public void calcolaTotale() {
         ListaSpesa listaAttuale = this.contenutoGestioneSpese.getSpesaJList().getSelectedValue();
-        if (listaAttuale != null){
+        if (listaAttuale != null) {
             mostraMessaggio("il totale dovuto e' : \n" + listaAttuale.calcolaCostoTotaleSpesa() + " €");
-        }
-        else {
+        } else {
             mostraMessaggio("Errore: selezionare una lista per vedere il totale. ");
         }
     }

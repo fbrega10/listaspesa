@@ -9,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableColumnModel;
 import java.awt.BorderLayout;
 import java.util.Collections;
 import java.util.Optional;
@@ -31,10 +32,10 @@ public class ContentPanel extends JPanel {
         this.listModel = new DefaultListModel<>();
         this.categorieModel = new DefaultListModel<>();
 
+        updateView();
+
         this.spesaJList = new JList<>(listModel);
         this.categorieJList = new JList<>(categorieModel);
-
-        updateView();
 
         //layout specs
         setLayout(new BorderLayout());
@@ -43,6 +44,8 @@ public class ContentPanel extends JPanel {
         spesaJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         spesaJList.setBorder(BorderFactory.createTitledBorder("Liste della spesa"));
         add(new JScrollPane(spesaJList), BorderLayout.CENTER);
+        //categorieJList.addListSelectionListener(new DefaultTableColumnModel());
+        //spesaJList.addListSelectionListener(new DefaultTableColumnModel());
 
         categorieJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         categorieJList.setBorder(BorderFactory.createTitledBorder("Categorie prodotti"));
@@ -51,14 +54,12 @@ public class ContentPanel extends JPanel {
     }
 
     public void updateView() {
-        //refresh all the views
-        aggiornaListeModel(model);
-        aggiornaCategorieModel(model);
-        this.categorieJList = new JList<>(categorieModel);
-        this.spesaJList = new JList<>(listModel);
+        //refresh the view
+        aggiornaListeModel();
+        aggiornaCategorieModel();
     }
 
-    private void aggiornaListeModel(GestioneSpese model) {
+    private void aggiornaListeModel() {
         listModel.clear();
         Optional.of(model)
                 .map(GestioneSpese::getListaSpese)
@@ -66,7 +67,7 @@ public class ContentPanel extends JPanel {
                 .forEach(lista -> listModel.addElement(lista));
     }
 
-    private void aggiornaCategorieModel(GestioneSpese model) {
+    private void aggiornaCategorieModel() {
         categorieModel.clear();
         Optional.of(model)
                 .map(GestioneSpese::getCategorie)

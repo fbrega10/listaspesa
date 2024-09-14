@@ -15,7 +15,8 @@ import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 public class OpsPanel extends JPanel {
 
     private ControlloGestioneSpese controllo;
-    public OpsPanel(ControlloGestioneSpese controllo){
+
+    public OpsPanel(ControlloGestioneSpese controllo) {
 
         this.controllo = controllo;
         setLayout(new FlowLayout());
