@@ -36,8 +36,12 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         listaArticoli = new ArrayList<>();
     }
 
+    /**
+     * @param nome Nome della lista della spesa.
+     * @param list lista degli articoli.
+     * @throws ListaSpesaException nel caso in cui il nome assegnato alla lista sia null.
+     */
     public ListaSpesa(String nome, List<Articolo> list) throws ListaSpesaException {
-        //non accetto come argomento della funzione un nome null
         this(nome);
         this.listaArticoli = list;
     }
@@ -116,7 +120,6 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
      *
      * @return BigDecimal che rappresenta il costo di ogni articolo (prezzo x quantita)
      */
-//Calcola il costo totale di una spesa
     public BigDecimal calcolaCostoTotaleSpesa() {
         return Optional.ofNullable(this.listaArticoli)
                 .orElse(new ArrayList<>())
@@ -192,7 +195,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     }
 
     /**
-     * Sets lista articoli.
+     * Set della lista articoli all'oggetto.
      *
      * @param listaArticoli la lista di articoli
      */
@@ -205,13 +208,21 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         return this.listaArticoli.iterator();
     }
 
-    //verifico se due elementi sono uguali
+
+    /**
+     * @param obj : rappresenta l'oggetto di confronto
+     * @return : booleano che indica se gli oggetti sono identici
+     */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ListaSpesa temp)) return false;
-        return this.nome.equals(temp.getNome()) && this.listaArticoli.equals(temp.getListaArticoli());
+        if (!(obj instanceof ListaSpesa altra)) return false;
+        return this.nome.equals(altra.getNome()) && this.listaArticoli.equals(altra.getListaArticoli());
     }
 
+    /**
+     * @return Stringa che restituisce l'oggetto formattato come stringa
+     * per la scrittura in Csv
+     */
     public String toCsv() {
         if (this.listaArticoli.isEmpty()) return null;
         StringBuilder stringBuilder = new StringBuilder();
@@ -223,6 +234,9 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         return stringBuilder.toString();
     }
 
+    /**
+     * @return Stringa dell'oggetto formattato.
+     */
     @Override
     public String toString() {
         return "nome  : '" + nome + '\'' +

@@ -21,7 +21,8 @@ public class GestioneSpese {
     private Set<String> categorie;
 
     /**
-     * Costruttore GestioneSpese.
+     * Costruttore di default GestioneSpese.
+     * Istanzia un HashSet che rappresenta le categorie e ne istanzia sempre la categoria di default
      */
     public GestioneSpese() {
         categorie = new HashSet<>();
@@ -86,6 +87,12 @@ public class GestioneSpese {
         return true;
     }
 
+    /**
+     * @param nomeLista : Stringa che rappresenta il nome della lista della spesa
+     * @return booleano che significa che l'operazione é stata o meno eseguita.
+     * In caso di successo viene eliminata la prima lista della spesa che matcha
+     * il nome indicato da parametro e si restituisce true, false negli altri casi.
+     */
     public boolean rimuoviListaSpesa(String nomeLista) {
         if (nomeLista != null) {
             return this.listaSpese
@@ -116,17 +123,19 @@ public class GestioneSpese {
         return categorie;
     }
 
+    /**
+     * @return Gestione della spesa in formato String
+     */
     @Override
     public String toString() {
         return "categorie = " + categorie + "\n" +
                 "liste della spesa = " + listaSpese;
-
     }
 
     /**
      * Reset gestione spese riporta l'oggetto alle impostazioni di fabbrica: ovvero elimina tutte le categorie
      * (ad eccezione di quella di default) e svuota il gestore di tutte le spese che erano state precedentemente
-     * aggiunte.
+     * aggiunte. Stesso comportamento iniziale dell'oggetto successivamente alla sua costruzione.
      */
     public void resetGestioneSpese() {
         this.listaSpese.clear();

@@ -41,6 +41,8 @@ public class Articolo implements Serializable {
      * Lancia un'eccezione di tipo ArticoloException per prezzo negativo, non possibile per il dominio del dato,
      * oppure per nome articolo settato a null.
      * Di default la categoria e' preimpostata, cosi' come la quantita' a 1 (se non definita).
+     * La quantita' é Integer per lasciare la possibilita' all'utente di non inserire alcun valore e gestirlo
+     * da applicativo.
      *
      * @param nomeArticolo   nome dell'articolo (String)
      * @param prezzoUnitario il prezzo unitario (BigDecimal)
@@ -58,6 +60,11 @@ public class Articolo implements Serializable {
         }
     }
 
+    /**
+     * @param obj : Due oggetti sono identici se sono istanze di Articolo
+     *            e presentano tutti i medesimi campi
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Articolo s)) return false;
@@ -69,42 +76,64 @@ public class Articolo implements Serializable {
 
     /**
      * Calcola prezzo del prodotto come moltiplicazione tra la quantita' e il suo prezzo unitario
-     *
      * @return BigDecimal corrispondente alla moltiplicazione tra prezzo unitario e quantita'
      */
     public BigDecimal calcolaPrezzo() {
         return this.getPrezzoUnitario().multiply(BigDecimal.valueOf(this.getQuantita()));
     }
 
-    //metodi getter/setter
+    /**
+     * @return nome dell'articolo
+     */
     public String getNomeArticolo() {
         return nomeArticolo;
     }
 
+    /**
+     * @return BigDecimal che rappresenta il prezzo unitario
+     */
     public BigDecimal getPrezzoUnitario() {
         return prezzoUnitario;
     }
 
+    /**
+     * @return int: rappresenta la quantita'
+     */
     public int getQuantita() {
         return quantita;
     }
 
+    /**
+     * @return la categoria di appartenenza
+     */
     public String getCategoria() {
         return categoria;
     }
 
+    /**
+     * @param nomeArticolo setta il nome dell'articolo all'oggetto.
+     */
     public void setNomeArticolo(String nomeArticolo) {
         this.nomeArticolo = nomeArticolo;
     }
 
+    /**
+     * @param prezzoUnitario setta il prezzo unitario dell'oggetto.
+     */
     public void setPrezzoUnitario(BigDecimal prezzoUnitario) {
         this.prezzoUnitario = prezzoUnitario;
     }
 
+    /**
+     * @param quantita setta la quantita' dell'oggetto.
+     */
     public void setQuantita(int quantita) {
         this.quantita = quantita;
     }
 
+    /**
+     * @param categoria setta la categoria dell'oggetto.
+     */
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
@@ -113,7 +142,7 @@ public class Articolo implements Serializable {
     public String toString() {
         return "{ nomeArticolo: '" + nomeArticolo + '\'' + ", " +
                 quantita + " x " +
-                prezzoUnitario + "€" +
+                prezzoUnitario + " €" +
                 ", categoria: '" + categoria + '\'' + " }";
     }
 

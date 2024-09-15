@@ -1,1 +1,9 @@
+unnamed package
+exceptions
+gui
+gui.controllo
+gui.vista
+io
 model
+test
+utils

@@ -158,6 +158,7 @@ public class FinestraDialogo {
                     .map(lista -> lista.getArticoliDiCategoriaPrefix(prefissoCategoria))
                     .orElse(Collections.emptyList())
                     .forEach(articolo -> sb.append("\n").append(articolo.toString()));
+
             if (sb.isEmpty()) {
                 mostraMessaggio("Nessun risultato per il prefisso di categoria selezionato.");
             }
