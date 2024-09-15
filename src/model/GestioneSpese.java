@@ -106,6 +106,22 @@ public class GestioneSpese {
     }
 
     /**
+     * @param nomeLista in stringa
+     * @return la ListaSpesa con il nome corrispondente, o un reference a null.
+     */
+    public ListaSpesa getListaByNome(String nomeLista){
+        if (nomeLista != null){
+            return Optional.ofNullable(this.getListaSpese())
+                    .orElse(Collections.emptyList())
+                    .stream()
+                    .filter(list -> list.getNome().equalsIgnoreCase(nomeLista))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
+    /**
      * Gets lista spese.
      *
      * @return le liste della spesa

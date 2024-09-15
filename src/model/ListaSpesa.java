@@ -24,7 +24,9 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     private String nome;
     private List<Articolo> listaArticoli;
 
-    public ListaSpesa(){}
+    public ListaSpesa() {
+    }
+
     /**
      * Istanzia una nuova lista a partire dal suo nome.
      *
@@ -91,10 +93,11 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     /**
      * Data una categoria viene restituita la lista degli Articoli la cui categoria
      * inizia con la stringa di input, altrimenti si ottiene una lista vuota.
+     *
      * @param categoria : prefisso in stringa
      * @return List<Articolo>, può essere vuota.
      */
-    public List<Articolo> getArticoliDiCategoriaPrefix(String categoria){
+    public List<Articolo> getArticoliDiCategoriaPrefix(String categoria) {
         if (categoria == null) return Collections.emptyList();
         return Optional.of(listaArticoli)
                 .orElse(new ArrayList<>())
@@ -113,6 +116,21 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         return this.listaArticoli.
                 stream()
                 .max(new Articolo.ArticoloPrezzoComparator())
+                .orElse(null);
+    }
+
+    /**
+     * @param nomeArticolo : nome dell'articolo da cercare
+     * @return l'Articolo oppure null se non presente nella lista.
+     */
+    public Articolo getArticoloByNome(String nomeArticolo) {
+        if (nomeArticolo == null) return null;
+        return Optional.of(this)
+                .map(ListaSpesa::getListaArticoli)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(articolo -> articolo.getNomeArticolo().equalsIgnoreCase(nomeArticolo))
+                .findFirst()
                 .orElse(null);
     }
 
@@ -146,7 +164,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     /**
      * @return booleano che rappresenta lista vuota o meno
      */
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.listaArticoli.isEmpty();
     }
 
