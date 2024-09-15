@@ -18,7 +18,6 @@ public class Main {
         articoli.add(new Articolo("Scarpe", BigDecimal.ONE, 2, "indumenti"));
         articoli.add(new Articolo("Borse", BigDecimal.ONE, 2, "indumenti"));
         gestioneSpese.addListaSpesa(new ListaSpesa("lista1", articoli));
-        //System.out.println(gestioneSpese.toString());
         interfacciaGrafica();
     }
 
