@@ -212,7 +212,6 @@ public class InterfacciaGrafica {
         switch (scelta){
             case 1 -> caricaListaDaFile();
             case 2 -> scriviListaSuFile();
-            default -> pulisciSchermo();
         }
         continuaEPulisci();
     }
@@ -233,8 +232,25 @@ public class InterfacciaGrafica {
     }
 
     private void scriviListaSuFile(){
-        //TODO
-
+        pulisciSchermo();
+        System.out.println("Inserisci il nome della lista :");
+        String nomeLista = inputScanner.next();
+        ListaSpesa lista = gestioneSpese.getListaByNome(nomeLista);
+        if (lista == null){
+            System.out.println("Lista non presente, riprovare");
+            continuaEPulisci();
+            return;
+        }
+        System.out.println("Inserisci nome file di destinazione :");
+        String nomeFile = inputScanner.next();
+        try{
+        ListWriterReader.writeListaSuFile(nomeFile, lista);
+        System.out.println("Operazione eseguita con successo!");
+        }catch (IOException e){
+            System.out.println("Errore nella scrittura file, riprovare.");
+            continuaEPulisci();
+        }
+        continuaEPulisci();
     }
 
     private void continuaEPulisci() {
