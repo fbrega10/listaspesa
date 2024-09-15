@@ -118,9 +118,4 @@ public class ListWriterReader {
     public static List<String> splitBySemicolon(String s) {
         return Arrays.asList(s.split(ListWriterReader.delimiter));
     }
-
-    public static void main(String[] args) throws IOException, ListaSpesaException, ClassNotFoundException, ArticoloException {
-
-
-    }
 }
