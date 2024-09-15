@@ -24,6 +24,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     private String nome;
     private List<Articolo> listaArticoli;
 
+    public ListaSpesa(){}
     /**
      * Istanzia una nuova lista a partire dal suo nome.
      *

@@ -10,9 +10,13 @@ import utils.Costanti;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +30,38 @@ public class ListWriterReader {
     public static final String path = new File("").getAbsoluteFile() + "/src/resources/";
     private static final String delimiter = ";";
 
+
+    /**
+     * Scrive una lista su file indicato.
+     *
+     * @param file       : nome file + path
+     * @param listaSpesa istanza dell'oggetto listaSpesa che si vuole serializzare su file.
+     * @throws IOException nel caso in cui l'operazione di I/O non andasse a buon fine.
+     */
+    public static void writeListaSuFile(String file, ListaSpesa listaSpesa) throws IOException {
+        file = path + file;
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(listaSpesa);
+        objectOutputStream.flush();
+        objectOutputStream.close();
+    }
+
+    /**
+     * legge e restituisce una lista da file indicato.
+     *
+     * @param file : nome file + path
+     * @throws IOException            nel caso in cui l'operazione di I/O non andasse a buon fine.
+     * @throws ClassNotFoundException nel caso in cui la classe dell'istanza da deserializzare non esista.
+     */
+    public static ListaSpesa readListaDaFile(String file) throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
+        ListaSpesa listaSpesa = (ListaSpesa) inputStream.readObject();
+        inputStream.close();
+        return listaSpesa;
+    }
+
     /**
      * Read file lista spesa in formato *.csv.
      * La prima riga rappresenta il nome della lista, le altre sono i field dell'oggetto articolo
@@ -37,7 +73,7 @@ public class ListWriterReader {
      * @throws ListWriterReaderException eccezione in caso di eccezioni per I/O o file non trovato o cast exception per
      *                                   formato errato nei tipi dato di un Articolo/ListaSpesa
      */
-    public static ListaSpesa readFile(String fileName) throws ListWriterReaderException, IOException, ArticoloException, ListaSpesaException {
+    public static ListaSpesa readCsvFile(String fileName) throws ListWriterReaderException, IOException, ArticoloException, ListaSpesaException {
         try {
             String file = path + fileName;
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -54,7 +90,7 @@ public class ListWriterReader {
             }
             bufferedReader.close();
             return new ListaSpesa(listName, list);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new ArticoloException(Costanti.ECCEZ_VALIDAZIONE_QUANTITA);
         }
     }
@@ -83,4 +119,8 @@ public class ListWriterReader {
         return Arrays.asList(s.split(ListWriterReader.delimiter));
     }
 
+    public static void main(String[] args) throws IOException, ListaSpesaException, ClassNotFoundException, ArticoloException {
+
+
+    }
 }
