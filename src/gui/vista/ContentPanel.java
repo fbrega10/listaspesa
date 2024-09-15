@@ -9,8 +9,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableColumnModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -35,22 +39,32 @@ public class ContentPanel extends JPanel {
         updateView();
 
         this.spesaJList = new JList<>(listModel);
+        this.spesaJList.setBackground(new Color(139, 201, 218));
+        this.spesaJList.setFont(new Font("Times New Roman", Font.BOLD, 14));
+
         this.categorieJList = new JList<>(categorieModel);
+        this.categorieJList.setBackground(new Color(95, 179, 211));
+        this.categorieJList.setFont(new Font("Arial", Font.BOLD, 14));
 
         //layout specs
         setLayout(new BorderLayout());
         setSize(700, 700);
 
         spesaJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        spesaJList.setBorder(BorderFactory.createTitledBorder("Liste della spesa"));
+        VistaUtils.setJListTitledBorder(spesaJList,
+                "Liste della spesa",
+                new Font("Times New Roman", Font.BOLD, 20),
+                TitledBorder.CENTER);
+        VistaUtils.cellRendererGiustificato(spesaJList);
         add(new JScrollPane(spesaJList), BorderLayout.CENTER);
-        //categorieJList.addListSelectionListener(new DefaultTableColumnModel());
-        //spesaJList.addListSelectionListener(new DefaultTableColumnModel());
 
         categorieJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        categorieJList.setBorder(BorderFactory.createTitledBorder("Categorie prodotti"));
-        add(new JScrollPane(categorieJList), BorderLayout.EAST);
-
+        VistaUtils.cellRendererGiustificato(categorieJList);
+        VistaUtils.setJListTitledBorder(categorieJList,
+                "Categorie Prodotti",
+                new Font("Times New Roman", Font.BOLD, 20),
+                TitledBorder.CENTER);
+        add(new JScrollPane(categorieJList), BorderLayout.SOUTH);
     }
 
     public void updateView() {

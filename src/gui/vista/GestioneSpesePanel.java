@@ -5,6 +5,7 @@ import model.GestioneSpese;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 public class GestioneSpesePanel extends JPanel {
     public GestioneSpesePanel(GestioneSpese model){

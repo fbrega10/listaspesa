@@ -5,6 +5,7 @@ import model.GestioneSpese;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class GestioneSpeseGui extends JFrame {

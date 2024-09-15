@@ -4,6 +4,7 @@ import gui.controllo.ControlloGestioneSpese;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
@@ -38,6 +39,7 @@ public class SouthOpsPanel extends JPanel {
         add(trovaPiuCostoso);
 
         JButton reset = new JButton(BUTTON_RESET);
+        reset.setBackground(Color.GREEN);
         add(reset);
 
         calcolaTotale.addActionListener(controllo);
