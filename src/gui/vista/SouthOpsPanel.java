@@ -10,6 +10,7 @@ import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
 import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
 import static utils.Costanti.BUTTON_FILTRA_PER_CATEGORIA;
 import static utils.Costanti.BUTTON_PIU_COSTOSO;
+import static utils.Costanti.BUTTON_RESET;
 import static utils.Costanti.BUTTON_RIMUOVI_ARTICOLO;
 
 public class SouthOpsPanel extends JPanel {
@@ -36,10 +37,14 @@ public class SouthOpsPanel extends JPanel {
         JButton trovaPiuCostoso = new JButton(BUTTON_PIU_COSTOSO);
         add(trovaPiuCostoso);
 
+        JButton reset = new JButton(BUTTON_RESET);
+        add(reset);
+
         calcolaTotale.addActionListener(controllo);
         aggiungiArticolo.addActionListener(controllo);
         rimuoviArticolo.addActionListener(controllo);
         filtraPerCategoria.addActionListener(controllo);
         trovaPiuCostoso.addActionListener(controllo);
+        reset.addActionListener(controllo);
     }
 }

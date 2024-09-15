@@ -177,6 +177,12 @@ public class FinestraDialogo {
         }
     }
 
+    public void reset(){
+        model.resetGestioneSpese();
+        mostraMessaggio("Reset avvenuto con successo!");
+    }
+
+
     private static void mostraMessaggio(String messaggio) {
         JOptionPane.showMessageDialog(new JOptionPane(), messaggio);
     }
