@@ -3,17 +3,21 @@ package gui.controllo;
 import exceptions.ArticoloException;
 import exceptions.ListaSpesaException;
 import gui.vista.ContentPanel;
+import io.ListWriterReader;
 import model.Articolo;
 import model.GestioneSpese;
 import model.ListaSpesa;
 import utils.Costanti;
 import utils.StringUtils;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
@@ -165,6 +169,21 @@ public class FinestraDialogo {
             mostraMessaggio("Gli articoli per cui risulta un match sono : " + sb.toString());
         } else {
             outputErrore("Selezionare una lista prima di filtrare per categoria.");
+        }
+    }
+
+    public void caricaDaFile(){
+        JFrame frame = new JFrame("Menu file");
+        JFileChooser fileChooser = new JFileChooser();
+        int valore = fileChooser.showOpenDialog(frame);
+        try {
+            if (valore == JFileChooser.APPROVE_OPTION) {
+                ListaSpesa listaSpesa = ListWriterReader.readListaDaFile(fileChooser.getSelectedFile().toString());
+                model.addListaSpesa(listaSpesa);
+                mostraMessaggio("Aggiunta lista spesa da file : " + fileChooser.getSelectedFile());
+            }
+        } catch (IOException | ClassNotFoundException e){
+           outputErrore("Errore nell'apertura file, riprovare prego.");
         }
     }
 

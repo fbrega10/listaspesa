@@ -18,5 +18,6 @@ public class Costanti {
     public static final String BUTTON_FILTRA_PER_CATEGORIA = "filtra per categoria";
     public static final String BUTTON_PIU_COSTOSO = "articolo più costoso";
     public static final String BUTTON_RESET = "reset";
+    public static final String BUTTON_CARICA_DA_FILE = "carica lista da file";
 
 }

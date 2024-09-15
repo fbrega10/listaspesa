@@ -11,6 +11,7 @@ import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
 import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
+import static utils.Costanti.BUTTON_CARICA_DA_FILE;
 import static utils.Costanti.BUTTON_FILTRA_PER_CATEGORIA;
 import static utils.Costanti.BUTTON_PIU_COSTOSO;
 import static utils.Costanti.BUTTON_RESET;
@@ -46,6 +47,7 @@ public class ControlloGestioneSpese implements ActionListener {
             case BUTTON_FILTRA_PER_CATEGORIA -> this.finestraDialogo.filtraPerCategoria();
             case BUTTON_PIU_COSTOSO -> this.finestraDialogo.trovaPiuCostoso();
             case BUTTON_RESET -> this.finestraDialogo.reset();
+            case BUTTON_CARICA_DA_FILE -> this.finestraDialogo.caricaDaFile();
         }
         this.contenutoGestioneSpese.updateView();
     }
