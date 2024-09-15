@@ -45,6 +45,7 @@ public class ListWriterReader {
         objectOutputStream.writeObject(listaSpesa);
         objectOutputStream.flush();
         objectOutputStream.close();
+        fileOutputStream.close();
     }
 
     /**
@@ -59,6 +60,7 @@ public class ListWriterReader {
         ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
         ListaSpesa listaSpesa = (ListaSpesa) inputStream.readObject();
         inputStream.close();
+        fileInputStream.close();
         return listaSpesa;
     }
 

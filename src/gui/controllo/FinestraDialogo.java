@@ -174,6 +174,7 @@ public class FinestraDialogo {
 
     public void caricaDaFile(){
         JFrame frame = new JFrame("Menu file");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFileChooser fileChooser = new JFileChooser();
         int valore = fileChooser.showOpenDialog(frame);
         try {
@@ -184,6 +185,24 @@ public class FinestraDialogo {
             }
         } catch (IOException | ClassNotFoundException e){
            outputErrore("Errore nell'apertura file, riprovare prego.");
+        }
+    }
+
+    public void esportaLista(){
+        ListaSpesa listaSpesa = retrieveListaSelezionata();
+        if (listaSpesa == null) outputErrore("Errore : selezionare una lista prima di esportarla");
+        String fileName = finestraInput("Inserisci nome file di output: ");
+        if (fileName != null && !fileName.isEmpty()){
+            try{
+                ListWriterReader.writeListaSuFile(fileName, listaSpesa);
+                mostraMessaggio("File correttamente scritto in : /src/resources.");
+            }
+            catch (IOException e){
+                outputErrore("Errore nella scrittura su file, riprovare prego.");
+            }
+        }
+        else{
+            outputErrore("Errore! Indicare nome file valido");
         }
     }
 

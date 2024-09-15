@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
 import static utils.Costanti.BUTTON_CARICA_DA_FILE;
+import static utils.Costanti.BUTTON_ESPORTA_LISTA;
 import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 
@@ -36,10 +37,14 @@ public class OpsPanel extends JPanel {
         JButton caricaDaFile = new JButton(BUTTON_CARICA_DA_FILE);
         add(caricaDaFile);
 
+        JButton esportaLista = new JButton(BUTTON_ESPORTA_LISTA);
+        add(esportaLista);
+
         addLista.addActionListener(controllo);
         removeLista.addActionListener(controllo);
         addCategoria.addActionListener(controllo);
         rimuoviCategoria.addActionListener(controllo);
         caricaDaFile.addActionListener(controllo);
+        esportaLista.addActionListener(controllo);
     }
 }
