@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     public ListaSpesa(String nome, List<Articolo> list) throws ListaSpesaException {
         this(nome);
         this.listaArticoli = list;
+        this.listaArticoli.sort(Comparator.comparing(Articolo::getNomeArticolo));
     }
 
     /**
@@ -59,6 +61,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         //chainable (metodo)
         if (articolo == null) return this;
         this.listaArticoli.add(articolo);
+        this.listaArticoli.sort(Comparator.comparing(Articolo::getNomeArticolo));
         return this;
     }
 
@@ -107,11 +110,22 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     }
 
     /**
-     * Get dell'articolo piu' costoso della lista, calcolando il costo come quantita' x prezzo unitario.
+     * Get dell'articolo piu' costoso della lista (maggiore prezzo unitario).
      *
-     * @return l'Articolo in questione
+     * @return Articolo della lista, null se non ci sono elementi
      */
     public Articolo getArticoloPiuCostoso() {
+        if (listaArticoli.isEmpty()) return null;
+        return this.listaArticoli.
+                stream()
+                .max((Comparator.comparing(Articolo::getPrezzoUnitario)))
+                .orElse(null);
+    }
+
+    /**
+     * @return Articolo il cui prezzo complessivo (prezzo x quantità) è il maggiore della lista
+     */
+    public Articolo getArticoloCostoTotaleMaggiore() {
         if (listaArticoli.isEmpty()) return null;
         return this.listaArticoli.
                 stream()
