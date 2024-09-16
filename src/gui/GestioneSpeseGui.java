@@ -5,8 +5,6 @@ import model.GestioneSpese;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Font;
 
 /**
  *  GUI del gestore delle liste della spesa
