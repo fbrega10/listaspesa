@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InterfacciaRigaDiComando {
@@ -30,7 +31,7 @@ public class InterfacciaRigaDiComando {
         boolean uscita = false;
         while (!uscita) {
             stampaMenuPrincipale();
-            int scelta = this.inputScanner.nextInt();
+            int scelta = filtraSceltaMenu();
             switch (scelta) {
                 case 1 -> stampaListe();
                 case 2 -> stampaCategorie();
@@ -39,6 +40,7 @@ public class InterfacciaRigaDiComando {
                 case 5 -> operazioniFile();
                 case 6 -> svuotaGestore();
                 case 9 -> uscita = true;
+                default -> System.out.println("scelta errata, riprovare");
             }
         }
         exitSaluto();
@@ -64,7 +66,7 @@ public class InterfacciaRigaDiComando {
         pulisciSchermo();
         stampaContenutoListe();
         stampaMenuOperazioniListe();
-        int scelta = inputScanner.nextInt();
+        int scelta = filtraSceltaMenu();
         switch (scelta) {
             case 1 -> aggiungiLista();
             case 2 -> rimuoviLista();
@@ -72,6 +74,7 @@ public class InterfacciaRigaDiComando {
             case 4 -> rimuoviArticolo();
             case 5 -> modificaArticolo();
             case 6 -> cercaArticoloPerPrefisso();
+            case 7 -> cercaArticoloPerCategoria();
             default -> pulisciSchermo();
         }
     }
@@ -80,8 +83,7 @@ public class InterfacciaRigaDiComando {
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
         if (listaSpesa == null) {
-            System.out.println("Nome lista non presente nel gestore.");
-            continuaEPulisci();
+            listaNonPresente();
             return;
         }
         String prefisso = getInputConMessaggio("Inserisci prefisso di ricerca articolo :");
@@ -95,12 +97,29 @@ public class InterfacciaRigaDiComando {
 
     }
 
+    private void cercaArticoloPerCategoria() {
+        String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
+        ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
+        if (listaSpesa == null) {
+            listaNonPresente();
+            return;
+        }
+        String categoria = getInputConMessaggio("Inserisci categoria : ");
+        List<Articolo> list = listaSpesa.getArticoliDiCategoria(categoria);
+        if (list.isEmpty()) {
+            System.out.println("Nessun articolo trovato.");
+            continuaEPulisci();
+            return;
+        }
+        System.out.println("Articoli trovati : \n" + list.toString());
+        continuaEPulisci();
+    }
+
     private void aggiungiArticolo() {
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui aggiungere l'articolo :");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
         if (listaSpesa == null) {
-            System.out.println("Nome lista non presente nel gestore.");
-            continuaEPulisci();
+            listaNonPresente();
             return;
         }
         try {
@@ -117,11 +136,11 @@ public class InterfacciaRigaDiComando {
     }
 
     private void modificaArticolo() {
+        stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui rimuovere l'articolo :");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
         if (listaSpesa == null) {
-            System.out.println("Nome lista non presente nel gestore.");
-            continuaEPulisci();
+            listaNonPresente();
             return;
         }
         String nome = getInputConMessaggio("Inserisci il nome dell'articolo da modificare : ");
@@ -148,16 +167,19 @@ public class InterfacciaRigaDiComando {
     }
 
     private void rimuoviArticolo() {
+        stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui rimuovere l'articolo :");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
         if (listaSpesa == null) {
-            System.out.println("Nome lista non presente nel gestore.");
-            continuaEPulisci();
+            listaNonPresente();
             return;
         }
         String nome = getInputConMessaggio("Inserisci il nome dell'articolo da rimuovere : ");
         Articolo articolo = listaSpesa.getArticoloByNome(nome);
-        if (listaSpesa.getArticoloByNome(nome) != null) listaSpesa.removeArticolo(articolo);
+        if (listaSpesa.getArticoloByNome(nome) != null) {
+            listaSpesa.removeArticolo(articolo);
+            System.out.println("Articolo rimosso con successo!");
+        }
         else {
             System.out.println("Articolo non presente, riprovare con un articolo valido.");
         }
@@ -171,7 +193,7 @@ public class InterfacciaRigaDiComando {
         System.out.println("1 - Aggiungi una categoria");
         System.out.println("2 - Rimuovi una categoria");
         System.out.println("9 - Esci");
-        int scelta = inputScanner.nextInt();
+        int scelta = filtraSceltaMenu();
         switch (scelta) {
             case 1 -> aggiungiCategoria();
             case 2 -> rimuoviCategoria();
@@ -202,6 +224,7 @@ public class InterfacciaRigaDiComando {
     }
 
     private void rimuoviLista() {
+        stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista da rimuovere :");
         if (gestioneSpese.rimuoviListaSpesa(nomeLista)) {
             System.out.println("Lista della spesa eliminata correttamente!");
@@ -225,7 +248,7 @@ public class InterfacciaRigaDiComando {
 
     private void operazioniFile() {
         stampaMenuOperazioniFile();
-        int scelta = inputScanner.nextInt();
+        int scelta = filtraSceltaMenu();
         switch (scelta) {
             case 1 -> caricaListaDaFile();
             case 2 -> scriviListaSuFile();
@@ -248,21 +271,22 @@ public class InterfacciaRigaDiComando {
 
     private void scriviListaSuFile() {
         pulisciSchermo();
+        stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista :");
         ListaSpesa lista = gestioneSpese.getListaByNome(nomeLista);
         if (lista == null) {
-            System.out.println("Lista non presente, riprovare");
+            listaNonPresente();
             return;
         }
         String nomeFile = getInputConMessaggio("Inserisci nome file di destinazione :");
         try {
             ListWriterReader.writeListaSuFile(nomeFile, lista);
             System.out.println("Operazione eseguita con successo!");
+            continuaEPulisci();
         } catch (IOException e) {
             System.out.println("Errore nella scrittura file, riprovare.");
             continuaEPulisci();
         }
-        continuaEPulisci();
     }
 
     private void continuaEPulisci() {
@@ -298,6 +322,7 @@ public class InterfacciaRigaDiComando {
         System.out.println("4 - rimuovi articolo");
         System.out.println("5 - modifica articolo");
         System.out.println("6 - cerca articolo per prefisso");
+        System.out.println("7 - cerca articoli per categoria");
         System.out.println("9 - esci");
     }
 
@@ -321,6 +346,13 @@ public class InterfacciaRigaDiComando {
         System.out.println("9 - esci");
     }
 
+    private void stampaNomiListeAttualmenteDisponibili() {
+        System.out.println("nomi liste attuali : \n" + gestioneSpese.getListaSpese()
+                .stream()
+                .map(ListaSpesa::getNome)
+                .toList());
+    }
+
     private void stampaContenutoListe() {
         System.out.println("Contenuto attuale liste :\n");
         Optional.of(gestioneSpese)
@@ -336,6 +368,18 @@ public class InterfacciaRigaDiComando {
                 .map(GestioneSpese::getCategorie)
                 .forEach(System.out::println);
         System.out.println();
+    }
+
+    private void listaNonPresente() {
+        System.out.println("Nome lista non presente nel gestore.");
+        continuaEPulisci();
+    }
+    private int filtraSceltaMenu(){
+        try {
+            return Integer.parseInt(this.inputScanner.next());
+        } catch (NumberFormatException e){
+            return 99;
+        }
     }
 
     private void exitSaluto() {

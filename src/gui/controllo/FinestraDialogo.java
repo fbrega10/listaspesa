@@ -137,22 +137,67 @@ public class FinestraDialogo {
             outputErrore("Errore : nessuna lista selezionata! Riprovare prego.");
             return;
         }
+        int sizeLista = listaAttuale.size();
         String result = finestraInput("Nome articolo da rimuovere");
         if (result != null) {
-            Articolo attuale = Optional.of(listaAttuale)
+            Optional.of(listaAttuale)
                     .map(ListaSpesa::getListaArticoli)
                     .orElse(Collections.emptyList())
                     .stream()
                     .filter(art -> art.getNomeArticolo().equalsIgnoreCase(result))
                     .findFirst()
-                    .orElse(null);
-            model.rimuoviListaSpesa(listaAttuale);
-            listaAttuale.removeArticolo(attuale);
-            model.addListaSpesa(listaAttuale);
-            mostraMessaggio("Articolo rimosso correttamente.");
+                    .ifPresent(listaAttuale::removeArticolo);
+            if (listaAttuale.size() == sizeLista) {
+                outputErrore("Articolo non presente, riprovare con articolo valido.");
+            } else {
+                mostraMessaggio("Articolo rimosso correttamente.");
+            }
         } else {
             outputErrore("Nome articolo non valido!");
         }
+    }
+
+    public void modificaArticolo(){
+        ListaSpesa listaAttuale = retrieveListaSelezionata();
+        if (listaAttuale == null) {
+            outputErrore("Errore : nessuna lista selezionata! Riprovare prego.");
+            return;
+        }
+        Articolo articolo = listaAttuale.getArticoloByNome(finestraInput("Nome articolo da modificare"));
+        if (articolo != null){
+
+            JTextField prezzoField = new JTextField(articolo.getPrezzoUnitario().toString());
+            JTextField quantitaField = new JTextField(String.valueOf(articolo.getQuantita()));
+            JTextField categoriaField = new JTextField(articolo.getCategoria());
+            JPanel panel = new JPanel(new GridLayout(3, 2));
+            panel.add(new JLabel("Prezzo Unitario:"));
+            panel.add(prezzoField);
+            panel.add(new JLabel("Quantità:"));
+            panel.add(quantitaField);
+            panel.add(new JLabel("Categoria:"));
+            panel.add(categoriaField);
+
+            int result = JOptionPane.showConfirmDialog(new JOptionPane(""), panel, "Modifica Articolo " + articolo.getNomeArticolo() , JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                try {
+                    Articolo copia = new Articolo(articolo.getNomeArticolo(), new BigDecimal(prezzoField.getText()),
+                            Integer.parseInt(quantitaField.getText().isEmpty() ? null : quantitaField.getText()),
+                            categoriaField.getText().isEmpty() ? null : categoriaField.getText());
+                    if (!copia.equals(articolo)) {
+                        //fatto per recepire l'aggiornamento a model ed aggiungere eventuali nuove categorie
+                        listaAttuale.removeArticolo(articolo);
+                        listaAttuale.addArticolo(copia);
+                        model.rimuoviListaSpesa(listaAttuale);
+                        model.addListaSpesa(listaAttuale);
+                        mostraMessaggio("Articolo modificato correttamente.");
+                    } else mostraMessaggio("Articolo non modificato.");
+                } catch (ArticoloException | NumberFormatException e) {
+                    outputErrore("Errore: valori inseriti non corretti. Prezzo e quantita' devono essere interi");
+                }
+            } else mostraMessaggio("Nessuna azione eseguita.");
+        }
+
+
     }
 
     public void filtraPerCategoria() {
@@ -254,7 +299,6 @@ public class FinestraDialogo {
         model.resetGestioneSpese();
         mostraMessaggio("Reset avvenuto con successo!");
     }
-
 
     private static void mostraMessaggio(String messaggio) {
         JOptionPane.showMessageDialog(new JOptionPane(), messaggio);

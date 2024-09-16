@@ -4,12 +4,14 @@ import gui.controllo.ControlloGestioneSpese;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import static utils.Costanti.BUTTON_AGGIUNGI_CATEGORIA;
 import static utils.Costanti.BUTTON_AGGIUNGI_LISTA;
 import static utils.Costanti.BUTTON_CARICA_DA_FILE;
 import static utils.Costanti.BUTTON_ESPORTA_LISTA;
+import static utils.Costanti.BUTTON_RESET;
 import static utils.Costanti.BUTTON_RIMUOVI_CATEGORIA;
 import static utils.Costanti.BUTTON_RIMUOVI_LISTA;
 
@@ -40,11 +42,16 @@ public class OpsPanel extends JPanel {
         JButton esportaLista = new JButton(BUTTON_ESPORTA_LISTA);
         add(esportaLista);
 
+        JButton reset = new JButton(BUTTON_RESET);
+        reset.setBackground(Color.GREEN);
+        add(reset);
+
         addLista.addActionListener(controllo);
         removeLista.addActionListener(controllo);
         addCategoria.addActionListener(controllo);
         rimuoviCategoria.addActionListener(controllo);
         caricaDaFile.addActionListener(controllo);
         esportaLista.addActionListener(controllo);
+        reset.addActionListener(controllo);
     }
 }
