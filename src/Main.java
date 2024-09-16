@@ -1,3 +1,4 @@
+import commandline.InterfacciaRigaDiComando;
 import exceptions.ArticoloException;
 import exceptions.ListaSpesaException;
 import gui.GestioneSpeseGui;
@@ -19,9 +20,14 @@ public class Main {
         articoli.add(new Articolo("Borse", BigDecimal.ONE, 2, "indumenti"));
         gestioneSpese.addListaSpesa(new ListaSpesa("lista1", articoli));
         interfacciaGrafica();
+        interfacciaRigaDiComando();
     }
 
     private static void interfacciaGrafica() {
         new GestioneSpeseGui(gestioneSpese);
+    }
+
+    private static void interfacciaRigaDiComando() {
+        new InterfacciaRigaDiComando(gestioneSpese).inizio();
     }
 }
