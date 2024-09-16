@@ -34,9 +34,11 @@ public class GestioneSpese {
      * Aggiunge una categoria
      *
      * @param categoria la categoria rappresentata come stringa
+     *                  Non accetto un puntamento a null come valore di dominio.
      * @return the boolean
      */
     public boolean addCategoria(String categoria) {
+        if (categoria == null) return false;
         return this.categorie.add(categoria);
 
     }
@@ -44,12 +46,12 @@ public class GestioneSpese {
     /**
      * L'azione di rimuove la categoria ha come effetto collaterale l'aggiornamento di tutti gli oggetti
      * presenti nelle liste (tipo ListaSpesa) e il settaggio al valore di default previsto per categoria.
-     *
+     * Il metodo è NullPointer free.
      * @param categoria : rappresenta la stringa indicata come categoria dell'articolo in questione.
      * @return the boolean
      */
     public boolean removeCategoria(String categoria) {
-        if (categoria.equals(Costanti.CATEGORIA_DEFAULT)) return false;
+        if (categoria == null || categoria.equals(Costanti.CATEGORIA_DEFAULT)) return false;
         if (this.categorie.contains(categoria)) {
             Optional.of(this.listaSpese)
                     .orElse(Collections.emptyList())
@@ -65,9 +67,10 @@ public class GestioneSpese {
      * @param listaSpesa oggetto ListaSpesa
      * @return il booleano che indica se ha avuto o meno successo l'operazione
      * se la lista e' gia' presente questa non viene aggiunta in quanto rappresenta un duplicato.
+     * Il metodo è NullPointer free.
      */
     public boolean addListaSpesa(ListaSpesa listaSpesa) {
-        if (this.listaSpese.contains(listaSpesa)) return false;
+        if (listaSpesa == null || this.listaSpese.contains(listaSpesa)) return false;
         this.listaSpese.add(listaSpesa);
         for (Articolo s : listaSpesa) {
             this.addCategoria(s.getCategoria());
