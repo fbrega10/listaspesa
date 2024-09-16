@@ -78,6 +78,7 @@ public class InterfacciaRigaDiComando {
             case 6 -> cercaArticoloPerPrefisso();
             case 7 -> cercaArticoloPerCategoria();
             case 8 -> cercaArticoloPiuCostoso();
+            case 9 -> calcolaTotale();
             default -> pulisciSchermo();
         }
     }
@@ -141,6 +142,25 @@ public class InterfacciaRigaDiComando {
             return;
         }
         System.out.println("L'articolo più costoso è : " + listaSpesa.getArticoloPiuCostoso());
+        continuaEPulisci();
+    }
+
+    /**
+     * Calcola totale della spesa.
+     */
+    private void calcolaTotale(){
+        String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
+        ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
+        if (listaSpesa == null) {
+            listaNonPresente();
+            return;
+        }
+        if (listaSpesa.isEmpty()) {
+            System.out.println("lista vuota... aggiungere almeno un elemento.");
+            continuaEPulisci();
+            return;
+        }
+        System.out.println("Il totale è : " + listaSpesa.calcolaCostoTotaleSpesa() + " €");
         continuaEPulisci();
     }
 
@@ -391,7 +411,8 @@ public class InterfacciaRigaDiComando {
         System.out.println("6 - cerca articolo per prefisso");
         System.out.println("7 - cerca articoli per categoria");
         System.out.println("8 - cerca articolo più costoso");
-        System.out.println("9 - esci");
+        System.out.println("9 - calcola totale lista");
+        System.out.println("10 - esci");
     }
 
     private void stampaMenuPrincipale() {
