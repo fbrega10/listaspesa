@@ -24,11 +24,13 @@ class ListaSpesaTest {
 
     //istanze di oggetti di test
     private ListaSpesa listaSpesa;
+    private Articolo articolo;
+    private Articolo articolo2;
 
     @BeforeEach
     void setUp() throws ArticoloException, ListaSpesaException {
-        Articolo articolo = new Articolo(NOME_ARTICOLO, PREZZO_UNITARIO, QUANTITA_DEFAULT, CATEGORIA_DOLCI);
-        Articolo articolo2 = new Articolo(NOME_ARTICOLO_DUE, PREZZO_UNITARIO_DUE, QUANTITA_DEFAULT + 2,
+        articolo = new Articolo(NOME_ARTICOLO, PREZZO_UNITARIO, QUANTITA_DEFAULT, CATEGORIA_DOLCI);
+        articolo2 = new Articolo(NOME_ARTICOLO_DUE, PREZZO_UNITARIO_DUE, QUANTITA_DEFAULT + 2,
                 CATEGORIA_DOLCI);
         ArrayList<Articolo> list = new ArrayList<>();
         list.add(articolo);
@@ -83,8 +85,20 @@ class ListaSpesaTest {
     }
     @Test
     void getArticoliDiNomePrefixTest(){
-        Assertions.assertEquals(2, this.listaSpesa.getArticoliDiNomePrefix("Ali").size());
+        Assertions.assertEquals(1, this.listaSpesa.getArticoliDiNomePrefix("Pi").size());
         Assertions.assertEquals(0, this.listaSpesa.getArticoliDiNomePrefix(null).size());
+    }
+
+    @Test
+    void getArticoloCostoTotaleMaggioreTest() throws ListaSpesaException {
+        Assertions.assertEquals(this.articolo, this.listaSpesa.getArticoloCostoTotaleMaggiore());
+        Assertions.assertNull(new ListaSpesa("abcd").getArticoloCostoTotaleMaggiore());
+    }
+
+    @Test
+    void getArticoloByNomeTest(){
+        Assertions.assertNotNull(this.listaSpesa.getArticoloByNome(articolo.getNomeArticolo()));
+        Assertions.assertNull(this.listaSpesa.getArticoloByNome("nomeacaso"));
     }
 
     private Articolo mockArticolo() throws ArticoloException {

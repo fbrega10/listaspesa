@@ -67,12 +67,12 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
 
     /**
      * Remove articolo: toglie un articolo dalla spesa
+     * Metodo chainable
      *
      * @param articolo
      * @return ListaSpesa in maniera che sia chainable
      */
     public ListaSpesa removeArticolo(Articolo articolo) {
-        //chainable (metodo)
         this.listaArticoli.remove(articolo);
         return this;
     }
@@ -89,7 +89,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         return Optional.of(listaArticoli)
                 .orElse(new ArrayList<>())
                 .stream()
-                .filter(articolo -> articolo.getCategoria() != null && articolo.getCategoria().equals(categoria))
+                .filter(articolo -> articolo.getCategoria() != null && articolo.getCategoria().equalsIgnoreCase(categoria))
                 .collect(Collectors.toList());
     }
 

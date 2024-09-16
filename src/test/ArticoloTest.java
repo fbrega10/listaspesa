@@ -30,8 +30,6 @@ public class ArticoloTest {
 
     @Test
     public void testEquals() {
-        //Due articoli rispecchiano lo stesso oggetto, seppure i reference siano diversi e siano due
-        //
         Assertions.assertEquals(articolo, articolo1);
     }
 
