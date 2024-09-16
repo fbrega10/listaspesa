@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 
 import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
 import static utils.Costanti.BUTTON_CALCOLA_TOTALE;
+import static utils.Costanti.BUTTON_FILTRA_PER_CATEGORIA;
 import static utils.Costanti.BUTTON_FILTRA_PER_NOME;
 import static utils.Costanti.BUTTON_PIU_COSTOSO;
 import static utils.Costanti.BUTTON_RESET;
@@ -32,8 +33,11 @@ public class SouthOpsPanel extends JPanel {
         JButton rimuoviArticolo = new JButton(BUTTON_RIMUOVI_ARTICOLO);
         add(rimuoviArticolo);
 
-        JButton filtraPerCategoria = new JButton(BUTTON_FILTRA_PER_NOME);
+        JButton filtraPerCategoria = new JButton(BUTTON_FILTRA_PER_CATEGORIA);
         add(filtraPerCategoria);
+
+        JButton filtraPerNome = new JButton(BUTTON_FILTRA_PER_NOME);
+        add(filtraPerNome);
 
         JButton trovaPiuCostoso = new JButton(BUTTON_PIU_COSTOSO);
         add(trovaPiuCostoso);
@@ -46,6 +50,7 @@ public class SouthOpsPanel extends JPanel {
         aggiungiArticolo.addActionListener(controllo);
         rimuoviArticolo.addActionListener(controllo);
         filtraPerCategoria.addActionListener(controllo);
+        filtraPerNome.addActionListener(controllo);
         trovaPiuCostoso.addActionListener(controllo);
         reset.addActionListener(controllo);
     }

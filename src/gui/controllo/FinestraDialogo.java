@@ -133,8 +133,12 @@ public class FinestraDialogo {
 
     public void rimuoviArticolo() {
         ListaSpesa listaAttuale = retrieveListaSelezionata();
+        if (listaAttuale == null) {
+            outputErrore("Errore : nessuna lista selezionata! Riprovare prego.");
+            return;
+        }
         String result = finestraInput("Nome articolo da rimuovere");
-        if (listaAttuale != null && result != null) {
+        if (result != null) {
             Articolo attuale = Optional.of(listaAttuale)
                     .map(ListaSpesa::getListaArticoli)
                     .orElse(Collections.emptyList())
@@ -147,16 +151,42 @@ public class FinestraDialogo {
             model.addListaSpesa(listaAttuale);
             mostraMessaggio("Articolo rimosso correttamente.");
         } else {
-            outputErrore("Selezionare lista e inserire nome articolo valido!");
+            outputErrore("Nome articolo non valido!");
+        }
+    }
+
+    public void filtraPerCategoria() {
+
+        ListaSpesa listaSpesa = retrieveListaSelezionata();
+        if (listaSpesa == null) {
+            outputErrore("Selezionare una lista prima di filtrare per categoria.");
+            return;
+        }
+        String categoria = finestraInput("Inserisci filtro categoria: ");
+        if (categoria != null) {
+            StringBuilder sb = new StringBuilder();
+            Optional.of(listaSpesa)
+                    .map(lista -> lista.getArticoliDiCategoria(categoria))
+                    .orElse(Collections.emptyList())
+                    .forEach(articolo -> sb.append("\n").append(articolo.toString()));
+            if (sb.isEmpty()) {
+                mostraMessaggio("Nessun risultato per la categoria selezionata.");
+            }
+            mostraMessaggio("Gli articoli per cui risulta un match sono : " + sb.toString());
+        } else {
+            outputErrore("Errore : inserire categoria valida.");
         }
     }
 
     public void filtraPerPrefissoNome() {
 
-        String prefissoNome = finestraInput("Inserisci filtro prefisso nome");
         ListaSpesa listaSpesa = retrieveListaSelezionata();
-
-        if (prefissoNome != null && listaSpesa != null) {
+        if (listaSpesa == null) {
+            outputErrore("Selezionare una lista prima di filtrare per nome.");
+            return;
+        }
+        String prefissoNome = finestraInput("Inserisci filtro prefisso nome");
+        if (prefissoNome != null) {
             StringBuilder sb = new StringBuilder();
             Optional.of(listaSpesa)
                     .map(lista -> lista.getArticoliDiNomePrefix(prefissoNome))
@@ -164,15 +194,15 @@ public class FinestraDialogo {
                     .forEach(articolo -> sb.append("\n").append(articolo.toString()));
 
             if (sb.isEmpty()) {
-                mostraMessaggio("Nessun risultato per il prefisso di categoria selezionato.");
+                mostraMessaggio("Nessun risultato per il nome inserito.");
             }
             mostraMessaggio("Gli articoli per cui risulta un match sono : " + sb.toString());
         } else {
-            outputErrore("Selezionare una lista prima di filtrare per categoria.");
+            outputErrore("Prefisso non inserito, riprovare.");
         }
     }
 
-    public void caricaDaFile(){
+    public void caricaDaFile() {
         JFrame frame = new JFrame("Menu file");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFileChooser fileChooser = new JFileChooser();
@@ -183,39 +213,44 @@ public class FinestraDialogo {
                 model.addListaSpesa(listaSpesa);
                 mostraMessaggio("Aggiunta lista spesa da file : " + fileChooser.getSelectedFile());
             }
-        } catch (IOException | ClassNotFoundException e){
-           outputErrore("Errore nell'apertura file, riprovare prego.");
+        } catch (IOException | ClassNotFoundException e) {
+            outputErrore("Errore nell'apertura file, riprovare prego.");
         }
     }
 
-    public void esportaLista(){
+    public void esportaLista() {
         ListaSpesa listaSpesa = retrieveListaSelezionata();
-        if (listaSpesa == null) outputErrore("Errore : selezionare una lista prima di esportarla");
+        if (listaSpesa == null) {
+            outputErrore("Errore : selezionare una lista prima di esportarla");
+            return;
+        }
         String fileName = finestraInput("Inserisci nome file di output: ");
-        if (fileName != null && !fileName.isEmpty()){
-            try{
+        if (fileName != null && !fileName.isEmpty()) {
+            try {
                 ListWriterReader.writeListaSuFile(fileName, listaSpesa);
                 mostraMessaggio("File correttamente scritto in : /src/resources.");
-            }
-            catch (IOException e){
+            } catch (IOException e) {
                 outputErrore("Errore nella scrittura su file, riprovare prego.");
             }
-        }
-        else{
+        } else {
             outputErrore("Errore! Indicare nome file valido");
         }
     }
 
     public void trovaPiuCostoso() {
         ListaSpesa listaSpesa = retrieveListaSelezionata();
-        if (listaSpesa == null) outputErrore("Selezionare lista prima per trovare articolo più costoso");
-        else if (listaSpesa.isEmpty()) mostraMessaggio("Lista selezionata vuota");
-        else {
-            mostraMessaggio("L'articolo più costoso è: \n " + listaSpesa.getArticoloPiuCostoso());
+        if (listaSpesa == null) {
+            outputErrore("Selezionare lista prima per trovare articolo più costoso");
+            return;
         }
+        if (listaSpesa.isEmpty()) {
+            mostraMessaggio("Lista selezionata vuota");
+            return;
+        }
+        mostraMessaggio("L'articolo più costoso è: \n " + listaSpesa.getArticoloPiuCostoso());
     }
 
-    public void reset(){
+    public void reset() {
         model.resetGestioneSpese();
         mostraMessaggio("Reset avvenuto con successo!");
     }
