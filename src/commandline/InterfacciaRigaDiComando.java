@@ -16,6 +16,9 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+/**
+ * Interfaccia riga di comando per la gestione della lista della spesa
+ */
 public class InterfacciaRigaDiComando {
 
     private GestioneSpese gestioneSpese;
@@ -79,6 +82,10 @@ public class InterfacciaRigaDiComando {
         }
     }
 
+    /**
+     * Cerca e stampa a video una lista della spesa in cui gli articoli hanno come
+     * prefisso la stringa di input
+     */
     private void cercaArticoloPerPrefisso() {
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
@@ -97,6 +104,9 @@ public class InterfacciaRigaDiComando {
 
     }
 
+    /**
+     * Stampa a video gli articoli di una lista la cui categoria corrisponde a quella di input.
+     */
     private void cercaArticoloPerCategoria() {
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
@@ -115,6 +125,9 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    /**
+     * Stampa a video l'articolo con il prezzo unitario maggiore, se la lista non è vuota.
+     */
     private void cercaArticoloPiuCostoso(){
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
@@ -131,6 +144,9 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    /**
+     * Aggiunge un articolo a una lista scelta dall'utente
+     */
     private void aggiungiArticolo() {
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui aggiungere l'articolo :");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
@@ -154,6 +170,10 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+
+    /**
+     * Permette la modifica di prezzo, quantità e categoria di un articolo.
+     */
     private void modificaArticolo() {
         stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui rimuovere l'articolo :");
@@ -185,6 +205,9 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    /**
+     * Rimuove un articolo dalla lista della spesa selezionata.
+     */
     private void rimuoviArticolo() {
         stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui rimuovere l'articolo :");
@@ -219,6 +242,9 @@ public class InterfacciaRigaDiComando {
         }
     }
 
+    /**
+     * Aggiunge una categoria al gestore.
+     */
     private void aggiungiCategoria() {
         pulisciSchermo();
         String categoria = getInputConMessaggio("Inserisci la categoria da aggiungere :");
@@ -230,6 +256,10 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+
+    /**
+     * Rimuove una categoria dal gestore (se presente, ovviamente).
+     */
     private void rimuoviCategoria() {
         pulisciSchermo();
         String categoria = getInputConMessaggio("Inserisci la categoria da rimuovere :");
@@ -241,6 +271,9 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    /**
+     * Rimuove una lista della spesa dal gestore.
+     */
     private void rimuoviLista() {
         stampaNomiListeAttualmenteDisponibili();
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista da rimuovere :");
@@ -252,6 +285,9 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    /**
+     * Aggiunge una nuova lista della spesa al gestore.
+     */
     private void aggiungiLista() {
         String nomeLista = getInputConMessaggio("Inserisci il nome della nuova lista :");
         try {
@@ -275,6 +311,10 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    /**
+     * Carica da file una lista e la aggiunge al gestore.
+     * Path assoluto indicato dall'utente.
+     */
     private void caricaListaDaFile() {
         System.out.println("path attuale : " + new File("").getAbsoluteFile());
         String path = getInputConMessaggio("Inserisci il path completo al file (incluso) :");
@@ -287,6 +327,9 @@ public class InterfacciaRigaDiComando {
         }
     }
 
+    /**
+     * Scrive su un file (path /src/resources/) la lista selezionata.
+     */
     private void scriviListaSuFile() {
         pulisciSchermo();
         stampaNomiListeAttualmenteDisponibili();
@@ -307,6 +350,9 @@ public class InterfacciaRigaDiComando {
         }
     }
 
+    /**
+     * Pulisce lo schermo.
+     */
     private void continuaEPulisci() {
         System.out.println("\n\npremi un tasto per continuare...");
         try {
@@ -316,6 +362,9 @@ public class InterfacciaRigaDiComando {
         this.pulisciSchermo();
     }
 
+    /**
+     * Resetta il gestore svuotandolo delle liste e categorie.
+     */
     private void svuotaGestore() {
         pulisciSchermo();
         gestioneSpese.resetGestioneSpese();
@@ -402,6 +451,9 @@ public class InterfacciaRigaDiComando {
         }
     }
 
+    /**
+     * Termina l'esecuzione del programma.
+     */
     private void exitSaluto() {
         System.out.println("\n\nProgramma terminato. Arrivederci!");
         gestioneSpese.resetGestioneSpese();
