@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InterfacciaRigaDiComando {
@@ -75,6 +74,7 @@ public class InterfacciaRigaDiComando {
             case 5 -> modificaArticolo();
             case 6 -> cercaArticoloPerPrefisso();
             case 7 -> cercaArticoloPerCategoria();
+            case 8 -> cercaArticoloPiuCostoso();
             default -> pulisciSchermo();
         }
     }
@@ -115,6 +115,22 @@ public class InterfacciaRigaDiComando {
         continuaEPulisci();
     }
 
+    private void cercaArticoloPiuCostoso(){
+        String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
+        ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
+        if (listaSpesa == null) {
+            listaNonPresente();
+            return;
+        }
+        if (listaSpesa.isEmpty()) {
+            System.out.println("lista vuota... aggiungere almeno un elemento.");
+            continuaEPulisci();
+            return;
+        }
+        System.out.println("L'articolo più costoso è : " + listaSpesa.getArticoloPiuCostoso());
+        continuaEPulisci();
+    }
+
     private void aggiungiArticolo() {
         String nomeLista = getInputConMessaggio("Inserisci il nome della lista a cui aggiungere l'articolo :");
         ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
@@ -125,9 +141,12 @@ public class InterfacciaRigaDiComando {
         try {
             String nome = getInputConMessaggio("Inserisci il nome dell'articolo da inserire nella lista : ");
             BigDecimal prezzo = new BigDecimal(getInputConMessaggio("Inserisci il prezzo :"));
-            Integer quantita = Integer.parseInt(getInputConMessaggio("Inserisci la quantità :"));
-            String categoria = getInputConMessaggio("Inserisci la categoria :");
-            Articolo articolo = new Articolo(nome, prezzo, quantita, categoria);
+            Integer quantita = Integer.parseInt(getInputConMessaggio("Inserisci la quantità : (0 se non si vuole inserire nulla)"));
+            String categoria = getInputConMessaggio("Inserisci la categoria : (inserire 'n' per non valorizzarla )");
+            Articolo articolo = new Articolo(nome,
+                    prezzo,
+                    quantita == 0 ? null : quantita,
+                    categoria.equals("n") ? null : categoria);
             listaSpesa.addArticolo(articolo);
         } catch (ArticoloException | NumberFormatException e) {
             System.out.println("Dati inseriti non validi, prezzo e nome obbligatori! Riprovare");
@@ -179,8 +198,7 @@ public class InterfacciaRigaDiComando {
         if (listaSpesa.getArticoloByNome(nome) != null) {
             listaSpesa.removeArticolo(articolo);
             System.out.println("Articolo rimosso con successo!");
-        }
-        else {
+        } else {
             System.out.println("Articolo non presente, riprovare con un articolo valido.");
         }
         continuaEPulisci();
@@ -323,6 +341,7 @@ public class InterfacciaRigaDiComando {
         System.out.println("5 - modifica articolo");
         System.out.println("6 - cerca articolo per prefisso");
         System.out.println("7 - cerca articoli per categoria");
+        System.out.println("8 - cerca articolo più costoso");
         System.out.println("9 - esci");
     }
 
@@ -374,10 +393,11 @@ public class InterfacciaRigaDiComando {
         System.out.println("Nome lista non presente nel gestore.");
         continuaEPulisci();
     }
-    private int filtraSceltaMenu(){
+
+    private int filtraSceltaMenu() {
         try {
             return Integer.parseInt(this.inputScanner.next());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 99;
         }
     }
