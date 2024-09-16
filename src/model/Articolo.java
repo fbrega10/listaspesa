@@ -27,7 +27,7 @@ public class Articolo implements Serializable {
     public Articolo(String nomeArticolo, BigDecimal prezzoUnitario) throws ArticoloException {
         //da requisito occorre inizializzare la categoria a default in mancanza di un dato
         //cosi come la quantita che va impostata a 1
-        if (prezzoUnitario.compareTo(BigDecimal.ZERO) < 0)
+        if (prezzoUnitario.compareTo(BigDecimal.ZERO) <= 0)
             throw new ArticoloException(Costanti.ECCEZ_PREZZO_NEGATIVO);
         if (nomeArticolo == null) throw new ArticoloException(Costanti.NOME_ARTICOLO_INVALIDO);
         this.nomeArticolo = nomeArticolo;
