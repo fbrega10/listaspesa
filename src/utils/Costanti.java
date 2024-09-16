@@ -15,7 +15,7 @@ public class Costanti {
     public static final String BUTTON_CALCOLA_TOTALE = "calcola totale";
     public static final String BUTTON_AGGIUNGI_ARTICOLO = "aggiungi articolo";
     public static final String BUTTON_RIMUOVI_ARTICOLO = "rimuovi articolo";
-    public static final String BUTTON_FILTRA_PER_CATEGORIA = "filtra per categoria";
+    public static final String BUTTON_FILTRA_PER_NOME = "filtra per prefisso nome";
     public static final String BUTTON_PIU_COSTOSO = "articolo più costoso";
     public static final String BUTTON_RESET = "reset";
     public static final String BUTTON_CARICA_DA_FILE = "carica lista da file";

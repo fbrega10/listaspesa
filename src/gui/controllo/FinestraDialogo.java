@@ -151,15 +151,15 @@ public class FinestraDialogo {
         }
     }
 
-    public void filtraPerCategoria() {
+    public void filtraPerPrefissoNome() {
 
-        String prefissoCategoria = finestraInput("Inserisci filtro categoria");
+        String prefissoNome = finestraInput("Inserisci filtro prefisso nome");
         ListaSpesa listaSpesa = retrieveListaSelezionata();
 
-        if (prefissoCategoria != null && listaSpesa != null) {
+        if (prefissoNome != null && listaSpesa != null) {
             StringBuilder sb = new StringBuilder();
             Optional.of(listaSpesa)
-                    .map(lista -> lista.getArticoliDiCategoriaPrefix(prefissoCategoria))
+                    .map(lista -> lista.getArticoliDiNomePrefix(prefissoNome))
                     .orElse(Collections.emptyList())
                     .forEach(articolo -> sb.append("\n").append(articolo.toString()));
 

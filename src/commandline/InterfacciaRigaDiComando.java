@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -70,8 +71,28 @@ public class InterfacciaRigaDiComando {
             case 3 -> aggiungiArticolo();
             case 4 -> rimuoviArticolo();
             case 5 -> modificaArticolo();
+            case 6 -> cercaArticoloPerPrefisso();
             default -> pulisciSchermo();
         }
+    }
+
+    private void cercaArticoloPerPrefisso() {
+        String nomeLista = getInputConMessaggio("Inserisci il nome della lista da cui cercare");
+        ListaSpesa listaSpesa = gestioneSpese.getListaByNome(nomeLista);
+        if (listaSpesa == null) {
+            System.out.println("Nome lista non presente nel gestore.");
+            continuaEPulisci();
+            return;
+        }
+        String prefisso = getInputConMessaggio("Inserisci prefisso di ricerca articolo :");
+        List<Articolo> list = listaSpesa.getArticoliDiNomePrefix(prefisso);
+        if (!list.isEmpty()) {
+            System.out.println("\nlista degli articoli trovati : ");
+            Stream.of(list).forEach(System.out::println);
+        } else {
+            System.out.println("Nessun articolo trovato con prefisso : " + prefisso + " riprovare prego.");
+        }
+
     }
 
     private void aggiungiArticolo() {
@@ -122,7 +143,7 @@ public class InterfacciaRigaDiComando {
             } catch (NumberFormatException | ArticoloException e) {
                 System.out.println("Errore nell'inserimento dei dati, prezzo e quantità devono essere numeri");
             }
-        }else System.out.println("Articolo non presente, riprovare prego.");
+        } else System.out.println("Articolo non presente, riprovare prego.");
         continuaEPulisci();
     }
 
@@ -276,6 +297,7 @@ public class InterfacciaRigaDiComando {
         System.out.println("3 - aggiungi articolo");
         System.out.println("4 - rimuovi articolo");
         System.out.println("5 - modifica articolo");
+        System.out.println("6 - cerca articolo per prefisso");
         System.out.println("9 - esci");
     }
 

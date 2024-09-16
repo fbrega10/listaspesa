@@ -91,18 +91,18 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     }
 
     /**
-     * Data una categoria viene restituita la lista degli Articoli la cui categoria
+     * Data una categoria viene restituita la lista degli Articoli il cui nome
      * inizia con la stringa di input, altrimenti si ottiene una lista vuota.
      *
-     * @param categoria : prefisso in stringa
+     * @param nomeArticolo : prefisso in stringa
      * @return List<Articolo>, può essere vuota.
      */
-    public List<Articolo> getArticoliDiCategoriaPrefix(String categoria) {
-        if (categoria == null) return Collections.emptyList();
+    public List<Articolo> getArticoliDiNomePrefix(String nomeArticolo) {
+        if (nomeArticolo == null) return Collections.emptyList();
         return Optional.of(listaArticoli)
                 .orElse(new ArrayList<>())
                 .stream()
-                .filter(articolo -> articolo.getCategoria() != null && articolo.getCategoria().startsWith(categoria))
+                .filter(articolo -> articolo.getNomeArticolo() != null && articolo.getNomeArticolo().startsWith(nomeArticolo))
                 .collect(Collectors.toList());
     }
 
