@@ -22,16 +22,26 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Classe che gestisce gli eventi della nostra GUI.
+ */
 public class FinestraDialogo {
 
     private GestioneSpese model;
     private ContentPanel contenutoGestioneSpese;
 
+    /**
+     * @param model modello dati
+     * @param contenutoGestioneSpese pannello che controlla le liste della gui.
+     */
     public FinestraDialogo(GestioneSpese model, ContentPanel contenutoGestioneSpese) {
         this.model = model;
         this.contenutoGestioneSpese = contenutoGestioneSpese;
     }
 
+    /**
+     * Aggiunge una lista spesa al modello dati e successivamente aggiorna la GUI.
+     */
     public void aggiungiLista() {
         String nomeLista = finestraInput("Inserisci il nome della lista : ");
         if (StringUtils.checkNullOrEmpty(nomeLista)) {
@@ -45,6 +55,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Aggiunge una categoria al gestore.
+     */
     public void aggiungiCategoria() {
         String nomeCategoria = finestraInput("Inserisci una nuova categoria : ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
@@ -57,6 +70,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Rimuove la lista selezionata, se presente.
+     */
     public void rimuoviLista() {
         ListaSpesa listaSpesa = retrieveListaSelezionata();
         if (listaSpesa != null) {
@@ -67,6 +83,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Rimuove la categoria che viene selezionata tramite input.
+     */
     public void rimuoviCategoria() {
         String categoriaSelezionata = this.contenutoGestioneSpese.getCategorieJList().getSelectedValue();
         if (categoriaSelezionata == null) {
@@ -81,6 +100,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Restituisce il totale rispetto alla lista selezionata.
+     */
     public void calcolaTotale() {
         ListaSpesa listaAttuale = retrieveListaSelezionata();
         if (listaAttuale != null) {
@@ -90,6 +112,10 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Aggiunge un articolo alla lista selezionata.
+     * Nome e prezzo sono campi obbligatori.
+     */
     public void aggiungiArticolo() {
         ListaSpesa listaAttuale = retrieveListaSelezionata();
         if (listaAttuale != null) {
@@ -131,6 +157,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Rimuove un articolo dalla lista selezionata.
+     */
     public void rimuoviArticolo() {
         ListaSpesa listaAttuale = retrieveListaSelezionata();
         if (listaAttuale == null) {
@@ -157,6 +186,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Modifica un articolo rispetto alla lista selezionata.
+     */
     public void modificaArticolo(){
         ListaSpesa listaAttuale = retrieveListaSelezionata();
         if (listaAttuale == null) {
@@ -200,6 +232,10 @@ public class FinestraDialogo {
 
     }
 
+    /**
+     * Filtra e restituisce gli elementi della lista selezionata la cui
+     * categoria corrisponde a quella presa in input dall'utente.
+     */
     public void filtraPerCategoria() {
 
         ListaSpesa listaSpesa = retrieveListaSelezionata();
@@ -223,6 +259,10 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Filtra per un prefisso (Stringa) chiesta all'utente e restituisce gli articoli
+     * il cui nome matcha con il prefisso.
+     */
     public void filtraPerPrefissoNome() {
 
         ListaSpesa listaSpesa = retrieveListaSelezionata();
@@ -247,6 +287,10 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Carica da file la lista della spesa (deserializzata) e la aggiunge
+     * alla lista dell'istanza del gestore.
+     */
     public void caricaDaFile() {
         JFrame frame = new JFrame("Menu file");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -263,6 +307,10 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Serializza la lista selezionata e la stampa in output su un file del nome deciso
+     * dall'utente (sotto la directory /src/resources del progetto)
+     */
     public void esportaLista() {
         ListaSpesa listaSpesa = retrieveListaSelezionata();
         if (listaSpesa == null) {
@@ -282,6 +330,9 @@ public class FinestraDialogo {
         }
     }
 
+    /**
+     * Trova e restituisce l'articolo col prezzo unitario più costoso.
+     */
     public void trovaPiuCostoso() {
         ListaSpesa listaSpesa = retrieveListaSelezionata();
         if (listaSpesa == null) {
@@ -295,6 +346,9 @@ public class FinestraDialogo {
         mostraMessaggio("L'articolo più costoso è: \n " + listaSpesa.getArticoloPiuCostoso());
     }
 
+    /**
+     * Riporta il gestore alle impostazioni di fabbrica : cancella categorie e liste spesa.
+     */
     public void reset() {
         model.resetGestioneSpese();
         mostraMessaggio("Reset avvenuto con successo!");

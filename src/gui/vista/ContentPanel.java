@@ -26,6 +26,12 @@ public class ContentPanel extends JPanel {
     private JList<String> categorieJList;
     private DefaultListModel<String> categorieModel;
 
+    /**
+     * @param gestioneSpese Pannello che contiene il cuore del gestore.
+     *                      Dispone due JList che rappresentano categorie/liste spesa.
+     *                      Tramite il metodo updateView aggiorna sulla base dell'oggetto
+     *                      la vista di queste due JList.
+     */
     public ContentPanel(GestioneSpese gestioneSpese) {
         //fields initialization
         this.model = gestioneSpese;
@@ -64,12 +70,19 @@ public class ContentPanel extends JPanel {
         add(new JScrollPane(categorieJList), BorderLayout.SOUTH);
     }
 
+    /**
+     * Aggiorna i contenuti delle due JList e quindi l'interfaccia grafica
+     * rispetto ai cambiamenti dell'oggetto gestioneSpese originale
+     */
     public void updateView() {
         //refresh the view
         aggiornaListeModel();
         aggiornaCategorieModel();
     }
 
+    /**
+     * Aggiorna JList degli elementi ListaSpesa
+     */
     private void aggiornaListeModel() {
         listModel.clear();
         Optional.of(model)
@@ -78,6 +91,9 @@ public class ContentPanel extends JPanel {
                 .forEach(lista -> listModel.addElement(lista));
     }
 
+    /**
+     * Aggiorna JList degli elementi categorie
+     */
     private void aggiornaCategorieModel() {
         categorieModel.clear();
         Optional.of(model)

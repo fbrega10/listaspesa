@@ -6,12 +6,19 @@ import model.GestioneSpese;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Font;
 
+/**
+ *  GUI del gestore delle liste della spesa
+ */
 @SuppressWarnings("serial")
 public class GestioneSpeseGui extends JFrame {
 
     private GestioneSpese model;
 
+    /**
+     * @param model Il costruttore prende come argomento l'istanza dell'oggetto gestione.
+     */
     public GestioneSpeseGui(GestioneSpese model) {
         this.model = model;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

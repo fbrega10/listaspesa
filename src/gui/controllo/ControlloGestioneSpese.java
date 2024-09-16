@@ -28,13 +28,24 @@ public class ControlloGestioneSpese implements ActionListener {
     private GestioneSpese model;
     private FinestraDialogo finestraDialogo;
 
+    /**
+     * @param contenutoGestioneSpese oggetto di riferimento per la gestione della vista
+     * @param model è l'istanza del gestore spese
+     */
     public ControlloGestioneSpese(ContentPanel contenutoGestioneSpese, GestioneSpese model) {
         this.contenutoGestioneSpese = contenutoGestioneSpese;
         this.model = model;
         this.finestraDialogo = new FinestraDialogo(model, contenutoGestioneSpese);
     }
 
-    //E' l'handler delle azioni (eventi), vanno usate la vista e il modello
+    /**
+     * @param actionEvent E' l'handler delle azioni (eventi), a ogni evento
+     *                    registrato corrisponde un'azione da applicare tramite
+     *                    oggetto FinestraDialogo.
+     *                    A seconda della provenienza (Button differente) ci sarà
+     *                    un'azione precisa.
+     *                    Alla fine verrà aggiornata la vista della gui.
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 

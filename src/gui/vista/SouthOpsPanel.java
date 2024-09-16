@@ -4,7 +4,6 @@ import gui.controllo.ControlloGestioneSpese;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.Color;
 import java.awt.FlowLayout;
 
 import static utils.Costanti.BUTTON_AGGIUNGI_ARTICOLO;
@@ -13,13 +12,16 @@ import static utils.Costanti.BUTTON_FILTRA_PER_CATEGORIA;
 import static utils.Costanti.BUTTON_FILTRA_PER_NOME;
 import static utils.Costanti.BUTTON_MODIFICA_ARTICOLO;
 import static utils.Costanti.BUTTON_PIU_COSTOSO;
-import static utils.Costanti.BUTTON_RESET;
 import static utils.Costanti.BUTTON_RIMUOVI_ARTICOLO;
 
 public class SouthOpsPanel extends JPanel {
 
     private ControlloGestioneSpese controllo;
 
+    /**
+     * @param controllo Ha come argomento del costruttore il controllo di gestione.
+     *                  Contiene i tasti posizionati a sud nel layout.
+     */
     public SouthOpsPanel(ControlloGestioneSpese controllo) {
 
         this.controllo = controllo;

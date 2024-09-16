@@ -19,6 +19,10 @@ public class OpsPanel extends JPanel {
 
     private ControlloGestioneSpese controllo;
 
+    /**
+     * @param controllo Ha come argomento del costruttore il controllo di gestione.
+     *                  Contiene i tasti posizionati a sud nel layout.
+     */
     public OpsPanel(ControlloGestioneSpese controllo) {
 
         this.controllo = controllo;
