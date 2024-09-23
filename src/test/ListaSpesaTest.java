@@ -80,14 +80,15 @@ class ListaSpesaTest {
     }
 
     @Test
-    void setListaArticoli() {
-        this.listaSpesa.setListaArticoli(new ArrayList<>());
-        Assertions.assertEquals(0, listaSpesa.size());
-    }
-    @Test
-    void getArticoliDiNomePrefixTest(){
+    void getArticoliDiNomePrefixTest() {
         Assertions.assertEquals(1, this.listaSpesa.getArticoliDiNomePrefix("Pi").size());
         Assertions.assertEquals(0, this.listaSpesa.getArticoliDiNomePrefix(null).size());
+    }
+
+    @Test
+    void removeArticoloDaNomeTest() {
+        Assertions.assertTrue(this.listaSpesa.removeArticolo(NOME_ARTICOLO));
+        Assertions.assertFalse(this.listaSpesa.removeArticolo(NOME_ARTICOLO));
     }
 
     @Test
@@ -97,18 +98,18 @@ class ListaSpesaTest {
     }
 
     @Test
-    void getArticoloByNomeTest(){
+    void getArticoloByNomeTest() {
         Assertions.assertNotNull(this.listaSpesa.getArticoloByNome(articolo.getNomeArticolo()));
         Assertions.assertNull(this.listaSpesa.getArticoloByNome("nomeacaso"));
     }
 
     @Test
-    void testListaCostruzioneNomeNullException(){
+    void testListaCostruzioneNomeNullException() {
         Assertions.assertThrows(ListaSpesaException.class, () -> new ListaSpesa(null, Collections.emptyList()));
     }
 
     @Test
-    void testListaCostruzioneArticoloException(){
+    void testListaCostruzioneArticoloException() {
         Assertions.assertThrows(ArticoloException.class, () -> new ListaSpesa("lista1",
                 Collections.nCopies(22, new Articolo("articolo", BigDecimal.ONE, -1, "categoria"))));
         Assertions.assertThrows(ArticoloException.class, () -> new ListaSpesa("lista1",

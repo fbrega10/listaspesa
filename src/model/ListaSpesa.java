@@ -78,6 +78,25 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     }
 
     /**
+     * @param nomeArticolo dato un nome articolo
+     * @return un booleano che indica se l'azione di rimuovere l'articolo ha avuto
+     * o meno buon fine (il primo della lista di quelli che matchano col nome indicato).
+     */
+    public boolean removeArticolo(String nomeArticolo) {
+        if (nomeArticolo == null) return false;
+        List<Articolo> list = Optional.of(this.listaArticoli)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(articolo -> articolo.getNomeArticolo().equalsIgnoreCase(nomeArticolo))
+                .toList();
+        if (list.isEmpty()) return false;
+        else {
+            this.listaArticoli.remove(list.get(0));
+            return true;
+        }
+    }
+
+    /**
      * Data una stringa rappresentante una categoria, si vuole ritornare tutti gli articoli che hanno
      * categoria che inizia con la stringa come parametro, altrimenti la lista restituita e' vuota
      *
@@ -139,8 +158,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
      */
     public Articolo getArticoloByNome(String nomeArticolo) {
         if (nomeArticolo == null) return null;
-        return Optional.of(this)
-                .map(ListaSpesa::getListaArticoli)
+        return Optional.of(this.listaArticoli)
                 .orElse(Collections.emptyList())
                 .stream()
                 .filter(articolo -> articolo.getNomeArticolo().equalsIgnoreCase(nomeArticolo))
@@ -218,29 +236,10 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
         this.nome = nome;
     }
 
-    /**
-     * Gets lista articoli.
-     *
-     * @return lista articoli
-     */
-    public List<Articolo> getListaArticoli() {
-        return listaArticoli;
-    }
-
-    /**
-     * Set della lista articoli all'oggetto.
-     *
-     * @param listaArticoli la lista di articoli
-     */
-    public void setListaArticoli(List<Articolo> listaArticoli) {
-        this.listaArticoli = listaArticoli;
-    }
-
     @Override
     public Iterator<Articolo> iterator() {
         return this.listaArticoli.iterator();
     }
-
 
     /**
      * @param obj : rappresenta l'oggetto di confronto
@@ -249,7 +248,7 @@ public class ListaSpesa implements Serializable, Iterable<Articolo> {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof ListaSpesa altra)) return false;
-        return this.nome.equals(altra.getNome()) && this.listaArticoli.equals(altra.getListaArticoli());
+        return this.nome.equals(altra.getNome()) && this.listaArticoli.equals(altra.listaArticoli);
     }
 
     /**

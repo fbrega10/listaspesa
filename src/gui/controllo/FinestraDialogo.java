@@ -168,21 +168,11 @@ public class FinestraDialogo {
         }
         int sizeLista = listaAttuale.size();
         String result = finestraInput("Nome articolo da rimuovere");
-        if (result != null) {
-            Optional.of(listaAttuale)
-                    .map(ListaSpesa::getListaArticoli)
-                    .orElse(Collections.emptyList())
-                    .stream()
-                    .filter(art -> art.getNomeArticolo().equalsIgnoreCase(result))
-                    .findFirst()
-                    .ifPresent(listaAttuale::removeArticolo);
-            if (listaAttuale.size() == sizeLista) {
-                outputErrore("Articolo non presente, riprovare con articolo valido.");
-            } else {
-                mostraMessaggio("Articolo rimosso correttamente.");
-            }
-        } else {
-            outputErrore("Nome articolo non valido!");
+        if (listaAttuale.removeArticolo(result)) {
+            mostraMessaggio("Articolo rimosso correttamente.");
+        }
+        else{
+            outputErrore("Articolo non presente, riprovare con articolo valido.");
         }
     }
 
