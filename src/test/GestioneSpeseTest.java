@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class GestioneSpeseTest {
 
@@ -54,13 +55,32 @@ class GestioneSpeseTest {
     }
 
     @Test
+    void addListaSpesaException() throws ListaSpesaException, ArticoloException {
+        Assertions.assertThrows(ArticoloException.class, () -> this.gestioneSpese
+                .addListaSpesa(new ListaSpesa("lista_base2",
+                        Collections.singletonList(
+                                new Articolo("art", BigDecimal.ZERO, -1, "categoria")))));
+        Assertions.assertThrows(ListaSpesaException.class, () -> this.gestioneSpese.addListaSpesa(new ListaSpesa(null)));
+    }
+
+    @Test
+    void testCostruttoreConNomeNullListaException() throws ListaSpesaException {
+        Assertions.assertThrows(ListaSpesaException.class, () -> this.gestioneSpese.addListaSpesa(new ListaSpesa(null)));
+    }
+
+    @Test
+    void testSecondoCostruttoreConNomeNullListaException() throws ListaSpesaException {
+        Assertions.assertThrows(ListaSpesaException.class, () -> this.gestioneSpese.addListaSpesa(new ListaSpesa(null, Collections.emptyList())));
+    }
+
+    @Test
     void rimuoviListaSpesa() throws ListaSpesaException, ArticoloException {
         this.gestioneSpese.rimuoviListaSpesa(new ListaSpesa("lista_base", mockListaSpesa()));
         Assertions.assertEquals(0, this.gestioneSpese.getListaSpese().size());
     }
 
     @Test
-    void rimuoviListaSpesaPerNome(){
+    void rimuoviListaSpesaPerNome() {
         this.gestioneSpese.rimuoviListaSpesa("lista_base");
         Assertions.assertEquals(0, this.gestioneSpese.getListaSpese().size());
     }

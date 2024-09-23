@@ -11,6 +11,7 @@ import utils.Costanti;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class ListaSpesaTest {
 
@@ -99,6 +100,19 @@ class ListaSpesaTest {
     void getArticoloByNomeTest(){
         Assertions.assertNotNull(this.listaSpesa.getArticoloByNome(articolo.getNomeArticolo()));
         Assertions.assertNull(this.listaSpesa.getArticoloByNome("nomeacaso"));
+    }
+
+    @Test
+    void testListaCostruzioneNomeNullException(){
+        Assertions.assertThrows(ListaSpesaException.class, () -> new ListaSpesa(null, Collections.emptyList()));
+    }
+
+    @Test
+    void testListaCostruzioneArticoloException(){
+        Assertions.assertThrows(ArticoloException.class, () -> new ListaSpesa("lista1",
+                Collections.nCopies(22, new Articolo("articolo", BigDecimal.ONE, -1, "categoria"))));
+        Assertions.assertThrows(ArticoloException.class, () -> new ListaSpesa("lista1",
+                Collections.singletonList(new Articolo("articolo", BigDecimal.ZERO, 2, "categoria"))));
     }
 
     private Articolo mockArticolo() throws ArticoloException {
