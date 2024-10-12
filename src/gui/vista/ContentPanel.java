@@ -81,25 +81,17 @@ public class ContentPanel extends JPanel {
     }
 
     /**
-     * Aggiorna JList degli elementi ListaSpesa
+     * Aggiorna JList degli elementi ListaSpesa con il contenuto del gestore
      */
     private void aggiornaListeModel() {
-        listModel.clear();
-        Optional.of(model)
-                .map(GestioneSpese::getListaSpese)
-                .orElse(Collections.emptyList())
-                .forEach(lista -> listModel.addElement(lista));
+        model.updateListModel(listModel);
     }
 
     /**
      * Aggiorna JList degli elementi categorie
      */
     private void aggiornaCategorieModel() {
-        categorieModel.clear();
-        Optional.of(model)
-                .map(GestioneSpese::getCategorie)
-                .orElse(Collections.emptySet())
-                .forEach(categorieModel::addElement);
+        model.updateCategorieListModel(categorieModel);
     }
 
     //GETTERS

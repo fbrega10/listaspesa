@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.DefaultListModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,32 +27,69 @@ class GestioneSpeseTest {
 
     @Test
     void testCostruzione() {
-        Assertions.assertEquals(1, this.gestioneSpese.getListaSpese().size());
-        Assertions.assertEquals(4, this.gestioneSpese.getCategorie().size());
+        Assertions.assertEquals(1, this.gestioneSpese.getListaSpeseSize());
+        Assertions.assertEquals(4, this.gestioneSpese.getCategorieSize());
     }
 
     @Test
     void addCategoria() {
         final String daAggiungere = "Non identificata";
         this.gestioneSpese.addCategoria(daAggiungere);
-        Assertions.assertTrue(this.gestioneSpese.getCategorie().contains(daAggiungere));
+        Assertions.assertTrue(this.gestioneSpese.containsCategoria(daAggiungere));
         Assertions.assertFalse(this.gestioneSpese.addCategoria(null));
+    }
+
+    @Test
+    void containsCategoriaTest() {
+        final String daAggiungere = "Nuova categoria";
+        this.gestioneSpese.addCategoria(daAggiungere);
+        Assertions.assertTrue(this.gestioneSpese.containsCategoria(daAggiungere));
+        Assertions.assertFalse(this.gestioneSpese.containsCategoria("Categoria non presente"));
+    }
+
+    @Test
+    void categorieSizeTest() {
+        final String daAggiungere = "Nuova categoria";
+        this.gestioneSpese.addCategoria(daAggiungere);
+        Assertions.assertTrue(this.gestioneSpese.containsCategoria(daAggiungere));
+        Assertions.assertEquals(5, this.gestioneSpese.getCategorieSize());
+    }
+
+    @Test
+    void listaSpeseSizeTest() throws ListaSpesaException {
+        Assertions.assertEquals(1, this.gestioneSpese.getListaSpeseSize());
+        this.gestioneSpese.addListaSpesa(new ListaSpesa("nome"));
+        Assertions.assertEquals(2, this.gestioneSpese.getListaSpeseSize());
+    }
+
+    @Test
+    void defaultListModelTest() {
+        DefaultListModel<ListaSpesa> listModel = new DefaultListModel<>();
+        gestioneSpese.updateListModel(listModel);
+        Assertions.assertEquals(gestioneSpese.getListaSpeseSize(), listModel.size());
+    }
+
+    @Test
+    void defaultCategorieListModelTest() {
+        DefaultListModel<String> categorieModel = new DefaultListModel<>();
+        gestioneSpese.updateCategorieListModel(categorieModel);
+        Assertions.assertEquals(gestioneSpese.getCategorieSize(), categorieModel.size());
     }
 
     @Test
     void removeCategoria() {
         final String scarpe = "Scarpe";
         this.gestioneSpese.removeCategoria(scarpe);
-        Assertions.assertFalse(this.gestioneSpese.getCategorie().contains(scarpe));
+        Assertions.assertFalse(this.gestioneSpese.containsCategoria(scarpe));
         Assertions.assertFalse(this.gestioneSpese.removeCategoria(null));
     }
 
     @Test
     void addListaSpesa() throws ListaSpesaException, ArticoloException {
         this.gestioneSpese.addListaSpesa(new ListaSpesa("lista_base2", mockListaSpesa()));
-        Assertions.assertEquals(2, this.gestioneSpese.getListaSpese().size());
+        Assertions.assertEquals(2, this.gestioneSpese.getListaSpeseSize());
         gestioneSpese.addListaSpesa(null);
-        Assertions.assertEquals(2, this.gestioneSpese.getListaSpese().size());
+        Assertions.assertEquals(2, this.gestioneSpese.getListaSpeseSize());
     }
 
     @Test
@@ -76,13 +114,13 @@ class GestioneSpeseTest {
     @Test
     void rimuoviListaSpesa() throws ListaSpesaException, ArticoloException {
         this.gestioneSpese.rimuoviListaSpesa(new ListaSpesa("lista_base", mockListaSpesa()));
-        Assertions.assertEquals(0, this.gestioneSpese.getListaSpese().size());
+        Assertions.assertEquals(0, this.gestioneSpese.getListaSpeseSize());
     }
 
     @Test
     void rimuoviListaSpesaPerNome() {
         this.gestioneSpese.rimuoviListaSpesa("lista_base");
-        Assertions.assertEquals(0, this.gestioneSpese.getListaSpese().size());
+        Assertions.assertEquals(0, this.gestioneSpese.getListaSpeseSize());
     }
 
     @Test
@@ -93,8 +131,8 @@ class GestioneSpeseTest {
     @Test
     void resetGestioneSpese() {
         this.gestioneSpese.resetGestioneSpese();
-        Assertions.assertEquals(1, this.gestioneSpese.getCategorie().size());
-        Assertions.assertEquals(0, this.gestioneSpese.getListaSpese().size());
+        Assertions.assertEquals(1, this.gestioneSpese.getCategorieSize());
+        Assertions.assertEquals(0, this.gestioneSpese.getListaSpeseSize());
     }
 
     private ArrayList<Articolo> mockListaSpesa() throws ArticoloException, ListaSpesaException {

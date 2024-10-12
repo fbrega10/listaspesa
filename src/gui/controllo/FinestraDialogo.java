@@ -61,7 +61,7 @@ public class FinestraDialogo {
     public void aggiungiCategoria() {
         String nomeCategoria = finestraInput("Inserisci una nuova categoria : ");
         if (StringUtils.checkNullOrEmpty(nomeCategoria)) {
-            if (model.getCategorie().contains(nomeCategoria)) {
+            if (model.containsCategoria(nomeCategoria)) {
                 mostraMessaggio("Categoria '" + nomeCategoria + "' gia' presente.");
             } else {
                 model.addCategoria(nomeCategoria);

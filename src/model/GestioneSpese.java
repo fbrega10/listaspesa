@@ -2,12 +2,14 @@ package model;
 
 import utils.Costanti;
 
+import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * La classe GestioneSpese permette di gestire contemporaneamente piu' spese e tiene traccia di tutte
@@ -47,6 +49,7 @@ public class GestioneSpese {
      * L'azione di rimuove la categoria ha come effetto collaterale l'aggiornamento di tutti gli oggetti
      * presenti nelle liste (tipo ListaSpesa) e il settaggio al valore di default previsto per categoria.
      * Il metodo è NullPointer free.
+     *
      * @param categoria : rappresenta la stringa indicata come categoria dell'articolo in questione.
      * @return the boolean
      */
@@ -112,9 +115,9 @@ public class GestioneSpese {
      * @param nomeLista in stringa
      * @return la ListaSpesa con il nome corrispondente, o un reference a null.
      */
-    public ListaSpesa getListaByNome(String nomeLista){
-        if (nomeLista != null){
-            return Optional.ofNullable(this.getListaSpese())
+    public ListaSpesa getListaByNome(String nomeLista) {
+        if (nomeLista != null) {
+            return Optional.ofNullable(this.listaSpese)
                     .orElse(Collections.emptyList())
                     .stream()
                     .filter(list -> list.getNome().equalsIgnoreCase(nomeLista))
@@ -125,21 +128,84 @@ public class GestioneSpese {
     }
 
     /**
-     * Gets lista spese.
-     *
-     * @return le liste della spesa
+     * @return verifica se il contenuto del field
+     * listaSpese è o meno vuoto
      */
-    public List<ListaSpesa> getListaSpese() {
-        return listaSpese;
+    public boolean isEmptyOfListaSpese() {
+        return this.listaSpese.isEmpty();
     }
 
     /**
-     * Gets categorie.
-     *
-     * @return il set di categorie
+     * @return ritorna il numero di Liste della spesa
      */
-    public Set<String> getCategorie() {
-        return categorie;
+    public int getListaSpeseSize() {
+        return this.listaSpese.size();
+    }
+
+    /**
+     * Stampa i contenuti delle liste della spesa che compongono il gestore
+     */
+    public void stampaContenutoSpese() {
+        Optional.of(this.listaSpese)
+                .orElse(Collections.emptyList())
+                .forEach(lista -> System.out.println(lista.toString()));
+    }
+
+    /**
+     * Stampa i nomi delle liste della spesa del gestore
+     */
+    public void stampaNomiListeSpesa() {
+        System.out.println("nomi liste attuali : \n" + Optional.of(this.listaSpese)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(ListaSpesa::getNome)
+                .toList());
+    }
+
+    /**
+     * @param listModel permette un aggiornamento del listModel sulla base del contenuto
+     *                  attuale del gestore. Utility per GUI.
+     */
+    public void updateListModel(DefaultListModel<ListaSpesa> listModel) {
+        listModel.clear();
+        Optional.of(this.listaSpese)
+                .orElse(Collections.emptyList())
+                .forEach(listModel::addElement);
+    }
+
+
+    /**
+     * @param categorieModel permette un aggiornamento del listModel sulla base del contenuto
+     *                       attuale del gestore. Utility per GUI.
+     */
+    public void updateCategorieListModel(DefaultListModel<String> categorieModel) {
+        categorieModel.clear();
+        Optional.of(this.categorie)
+                .orElse(Collections.emptySet())
+                .forEach(categorieModel::addElement);
+    }
+
+    /**
+     * Stampa su standard output il contenuto delle categorie attuali
+     */
+    public void stampaContenutoCategorie() {
+        Stream.of(this.categorie)
+                .forEach(System.out::println);
+    }
+
+    /**
+     * @param categoria String
+     * @return booleano che verifica la presenza della categoria nel set
+     */
+    public boolean containsCategoria(String categoria) {
+        return this.categorie.contains(categoria);
+    }
+
+    /**
+     * @return il numero di categorie attuali
+     */
+    public int getCategorieSize() {
+        return this.categorie.size();
     }
 
     /**

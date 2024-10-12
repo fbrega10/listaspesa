@@ -10,7 +10,6 @@ import model.ListaSpesa;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -50,7 +49,7 @@ public class InterfacciaRigaDiComando {
 
     public void stampaListe() {
         pulisciSchermo();
-        if (gestioneSpese.getListaSpese().isEmpty()) {
+        if (gestioneSpese.isEmptyOfListaSpese()) {
             System.out.println("Il gestore è vuoto, aggiungere almeno una lista.");
         } else {
             stampaContenutoListe();
@@ -436,26 +435,18 @@ public class InterfacciaRigaDiComando {
     }
 
     private void stampaNomiListeAttualmenteDisponibili() {
-        System.out.println("nomi liste attuali : \n" + gestioneSpese.getListaSpese()
-                .stream()
-                .map(ListaSpesa::getNome)
-                .toList());
+        gestioneSpese.stampaNomiListeSpesa();
     }
 
     private void stampaContenutoListe() {
         System.out.println("Contenuto attuale liste :\n");
-        Optional.of(gestioneSpese)
-                .map(GestioneSpese::getListaSpese)
-                .orElse(Collections.emptyList())
-                .forEach(lista -> System.out.println(lista.toString()));
+        Optional.of(gestioneSpese).ifPresent(GestioneSpese::stampaContenutoSpese);
         System.out.println();
     }
 
     private void stampaContenutoCategorie() {
         System.out.println("Ecco le categorie attualmente presenti :\n");
-        Stream.of(gestioneSpese)
-                .map(GestioneSpese::getCategorie)
-                .forEach(System.out::println);
+        gestioneSpese.stampaContenutoCategorie();
         System.out.println();
     }
 
